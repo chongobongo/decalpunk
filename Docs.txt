@@ -1,4 +1,6 @@
 
+REACT ICONS: https://react-icons.github.io/react-icons/
+    npm install react-icons --save
 
 RADIX UI:
     npm install @radix-ui/react-dropdown-menu
