@@ -2,6 +2,7 @@
 
 RADIX UI:
     npm install @radix-ui/react-dropdown-menu
+    npm i @radix-ui/react-checkbox
 
 LUCIDE REACT:
     npm i lucide-react
