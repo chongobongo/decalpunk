@@ -5,6 +5,13 @@ import { FaArrowRight } from "react-icons/fa";
 
 import splash from "@/features/home/images/Splash-Image.jpg"
 
+import { Protest_Strike } from "next/font/google"
+
+const protestFont = Protest_Strike({
+     subsets: ["latin"],
+     weight: "400",
+})
+
 export const Splash = ({
     headline,
     paragraph,
@@ -20,7 +27,7 @@ export const Splash = ({
     return (
         <section id="splash_container" className="grid grid-cols-1 md:grid-cols-2 bg-slate-900">
             <div id="contents" className="w-96 mr-auto ml-auto order-2 md:order-1">
-                <header id="headline" className="font-protest text-4xl text-amber-300 mt-4 text-center">
+                <header id="headline" className={`${protestFont.className} text-4xl text-amber-300 mt-4 text-center`}>
                         {headline}
                     </header> 
             <div id="paragraph" className="mt-4 text-white text-center">
@@ -31,7 +38,7 @@ export const Splash = ({
             <div id="link_container" className="grid grid-cols-1">
                 <div id="custom_link" className="w-60 h-10 mr-auto ml-auto mt-6 grid items-center justify-items-center rounded-lg bg-amber-300">
                     <Link href="/">
-                        <label className="font-protest text-2xl text-black">{button_text}</label>
+                        <label className={`${protestFont.className} text-2xl text-black`}>{button_text}</label>
                     </Link>
                 </div>
                 <div id="link_text" className="flex flex-row mr-auto ml-auto mt-4 text-white">
