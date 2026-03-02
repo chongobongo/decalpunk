@@ -131,8 +131,8 @@ export default function Home() {
       </div>
 
       <div id="testimonials" className="mt-6 mr-auto ml-auto text-center">
-        <label className="font-protest  text-4xl">Brand Testimonials</label>
-        <div className="mr-auto ml-auto mt-4 p-6 gap-6 flex flex-row">
+        <label className={`text-4xl ${protestFont.className}`}>Brand Testimonials</label>
+        <div className="p-6 gap-6 grid grid-cols-2 md:grid-cols-4">
             {testimonialData.map((item) => {
               return <div key={item.id}>
                         <BrandTestimonials testimonial={item} />

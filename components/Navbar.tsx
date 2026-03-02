@@ -69,7 +69,7 @@ export default function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu></li>
-          <li><Link href="/">Materials</Link></li>
+          <li><Link href="/materials">Materials</Link></li>
          <li><Link href="/">Support</Link></li>
       <div>
     <div id="hamburgerMenu" className="block lg:hidden">
