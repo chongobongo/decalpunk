@@ -18,8 +18,8 @@ export const Splash = ({
 }) => {
 
     return (
-        <section id="splash_container" className="grid grid-cols-2 bg-slate-900">
-            <div id="contents" className="w-96 mr-auto ml-auto">
+        <section id="splash_container" className="grid grid-cols-1 md:grid-cols-2 bg-slate-900">
+            <div id="contents" className="w-96 mr-auto ml-auto order-2 md:order-1">
                 <header id="headline" className="font-protest text-4xl text-amber-300 mt-4 text-center">
                         {headline}
                     </header> 
@@ -42,7 +42,7 @@ export const Splash = ({
                 </div>
             </div>
             </div>
-            <div id="image">
+            <div id="image" className="order-1 md:order-2">
                     <Image
                         src={splash}
                         width={500} height={200}
