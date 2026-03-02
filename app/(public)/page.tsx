@@ -107,23 +107,23 @@ export default function Home() {
             <TemplateBanner />
           </div>
 
-      <div id="material-selection" className="mt-6 mr-auto ml-auto">
-          <div>
+      <div id="materialSelection" className="mt-6 mr-auto ml-auto">
+          <div id="materialDescription">
             <p className={`text-center text-4xl ${protestFont.className}`}>
-                Select sticker material
+                Select sticker 
             </p>
             <p className="text-center">
               Our materials have been hand chosen by our team to ensure the highest quality, here are some favorites.
             </p>
           </div>
-          <div className="p-6 gap-6 flex flex-row">
+          <div id="materialCard" className="p-6 gap-6 grid grid-cols-2 md:grid-cols-4">
             {materialItems.map((item) => {
               return <div key={item.id}>
                         <MaterialCard material={item} />
                       </div>
                     })}
           </div>
-                <div id="custom_link" className="w-60 h-10 mr-auto ml-auto mt-6 grid items-center justify-items-center rounded-lg bg-black">
+                <div id="customLink" className="w-60 h-10 mr-auto ml-auto mt-6 grid items-center justify-items-center rounded-lg bg-black">
                     <Link href="/" className={`text-2xl text-white ${protestFont.className}`}>
                         See all materials
                     </Link>
