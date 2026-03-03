@@ -31,7 +31,7 @@ export const GalleryExample = () => {
             <div id="link_text" className="mt-4 bg-green-400 px-4 py-2 rounded">
                 <Link href="/">
                     <label className="font-protest block cursor-pointer text-black text-sm md:text-base">
-                        Gallery Art
+                        Gallery Art test
                     </label>
                 </Link>
             </div>
