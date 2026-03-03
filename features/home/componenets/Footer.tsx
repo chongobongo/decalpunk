@@ -32,7 +32,7 @@ export const Footer = () => {
     {/* Links Section */}
     <div id="links" className="mx-6 md:ml-20 w-auto md:w-96 mt-6 grid grid-cols-3">
       <div id="usefull-list" className="grid grids-cols-3 text-white">
-        <label className="text-lg">Useful links</label>
+        <label className={`text-lg ${protestFont.className}`}>Useful links</label>
         <ul className="mt-2">
           <li><Link href="/">Usages</Link></li>
           <li><Link href="/">Add-Ons</Link></li>
@@ -43,7 +43,7 @@ export const Footer = () => {
         </ul>
       </div>
       <div id="support-list" className="text-white">
-        <label className="text-lg">Support</label>
+        <label className={`text-lg ${protestFont.className}`}>Support</label>
         <ul className="mt-2">
           <li><Link href="/">Contact us</Link></li>
           <li><Link href="/">Quote</Link></li>
@@ -54,7 +54,7 @@ export const Footer = () => {
         </ul>
       </div>
       <div id="company-list" className="text-white">
-        <label className="text-lg">Company</label>
+        <label className={`text-lg ${protestFont.className}`}>Company</label>
         <ul className="mt-2">
           <li><Link href="/">About us</Link></li>
           <li><Link href="/">Legal</Link></li>

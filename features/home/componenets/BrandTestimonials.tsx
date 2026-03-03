@@ -15,29 +15,29 @@ export const BrandTestimonials = ({
 }) => {
 
     return (
-        <section className="">
-            <Link href="/">
-                <div id="card-container"  className="h-60 w-60 grid grid-cols-1 text-center rounded-lg shadow-lg bg-white">
-                    <div id="image" className="mr-auto ml-auto p-2">
-                    <div id="image">
-                        <Image
-                            src={testimonial.image}
-                            width={100} height={100}
-                            alt="Splash-Image"
-                        />
-                    </div>
-                    </div>
-                    <div id="stars" className="text-xl">
-                        {testimonial.description}
-                    </div>
-                    <div id="paragraph">
-                        {testimonial.label}
-                    </div>
-                    <div id="url">
-                        {testimonial.url}
-                    </div>
-                </div>
-            </Link>
-        </section>
+<section className="flex justify-center items-center px-4 w-full">
+    <Link href="/">
+        <div id="card-container" className="w-full max-w-xs sm:w-60 grid grid-cols-1 text-center bg-white p-3">
+            <div id="image" className="flex justify-center items-center p-2">
+                <Image
+                    src={testimonial.image}
+                    width={80}
+                    height={80}
+                    alt="Splash-Image"
+                    className="rounded-full object-cover"
+                />
+            </div>
+            <div id="stars" className="text-base sm:text-xl px-2 py-1">
+                {testimonial.description}
+            </div>
+            <div id="paragraph" className="text-sm sm:text-base px-2 py-1 text-gray-700">
+                {testimonial.label}
+            </div>
+            <div id="url" className="text-xs sm:text-sm px-2 py-1 text-blue-500 truncate">
+                {testimonial.url}
+            </div>
+        </div>
+    </Link>
+</section>
     )
 }
