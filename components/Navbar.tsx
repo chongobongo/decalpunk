@@ -1,4 +1,12 @@
 import Link from "next/link"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdownMenu";
 import { Protest_Strike } from "next/font/google"
 
 
@@ -11,26 +19,47 @@ import HamburgerIcon from "@/features/navbar/components/HamburgerMenu";
 
 export default function Navbar() {
   return (
-    <header className="h-12 shadow z-10 bg-black">
-      <nav className="mr-10 ml-10 flex flex-row">
-        <Link
-          className="mr-10 mt-2 text-white"
-          href="/"
-        >
-          Decal Punk
-        </Link>
-        <ul className={`flex flex-row mt-2 gap-2 text-amber-300 ${protestFont.className}`}>
-          <li><Link href="/stickers">Stickers</Link></li>
-          <li><Link href="/labels">Labels</Link></li>
-          <li><Link href="/materials">Materials</Link></li>
-      <div>
-    <div id="hamburgerMenu" className="block lg:hidden">
-        <HamburgerIcon />
+ <header className="h-12 shadow z-10 bg-black">
+  <nav className="mx-10 flex flex-row items-center h-full">
+    
+    {/* Logo - always visible */}
+    <Link className="mr-10 text-white font-bold tracking-wide" href="/">
+      Decal Punk
+    </Link>
+
+    {/* Desktop nav links - hidden on mobile */}
+    <ul className={`hidden lg:flex flex-row gap-4 text-amber-300 ${protestFont.className}`}>
+      <li><Link href="/stickers">Stickers</Link></li>
+      <li><Link href="/labels">Labels</Link></li>
+      <li><Link href="/materials">Materials</Link></li>
+    </ul>
+
+    {/* Hamburger - pushed to far right on mobile, hidden on desktop */}
+    <div className="ml-auto lg:hidden">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="text-white focus:outline-none">
+            <HamburgerIcon />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end">
+          <DropdownMenuLabel>Menu</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <Link href="/stickers" className="w-full cursor-pointer">Stickers</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Link href="/labels" className="w-full cursor-pointer">Labels</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <Link href="/materials" className="w-full cursor-pointer">Materials</Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
 
-      </div>
-        </ul>
-      </nav>
-    </header>
+  </nav>
+</header>
   )
 }
