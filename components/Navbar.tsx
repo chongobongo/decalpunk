@@ -1,14 +1,11 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { Protest_Strike } from "next/font/google"
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdownMenu";
+
+const protestFont = Protest_Strike({
+     subsets: ["latin"],
+     weight: "400",
+})
 
 import HamburgerIcon from "@/features/navbar/components/HamburgerMenu";
 
@@ -22,55 +19,10 @@ export default function Navbar() {
         >
           Decal Punk
         </Link>
-        <ul className="flex flex-row mt-2 gap-2 text-white">
-          <li>
-          <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="text-white">
-              Products
-            </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Products</DropdownMenuLabel>
-                <DropdownMenuItem>
-                    Stickers
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    Labels
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Magnets
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Buttons
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Packaging
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Apparel
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Acrylics
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  More Products
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  Samples
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu></li>
+        <ul className={`flex flex-row mt-2 gap-2 text-amber-300 ${protestFont.className}`}>
+          <li><Link href="/stickers">Stickers</Link></li>
+          <li><Link href="/labels">Labels</Link></li>
           <li><Link href="/materials">Materials</Link></li>
-         <li><Link href="/support">Support</Link></li>
       <div>
     <div id="hamburgerMenu" className="block lg:hidden">
         <HamburgerIcon />

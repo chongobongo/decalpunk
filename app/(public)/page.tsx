@@ -110,7 +110,7 @@ export default function Home() {
       <div id="materialSelection" className="mt-6 mr-auto ml-auto">
           <div id="materialDescription">
             <p className={`text-center text-4xl ${protestFont.className}`}>
-                Select sticker material 
+                Select Sticker Material 
             </p>
             <p className="text-center">
               Our materials have been hand chosen by our team to ensure the highest quality, here are some favorites.
