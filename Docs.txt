@@ -1,3 +1,6 @@
+ZOD VALIDATION: https://zod.dev/
+    npm: https://www.npmjs.com/package/zod
+        npm i zod
 
 REACT ICONS: https://react-icons.github.io/react-icons/
     npm install react-icons --save
@@ -14,3 +17,11 @@ CLASS VARIANCE AUTHORITY: https://cva.style/docs
 
 TAILWIND MERGE: https://www.npmjs.com/package/tailwind-merge
     npm i tailwind-merge
+
+REACT HOOK-FORM: https://react-hook-form.com/get-started
+        FORM DATA: https://developer.mozilla.org/en-US/docs/Web/API/FormData
+    npm install react-hook-form
+    npm install @hookform/resolvers
+
+RADIX UI:
+    npm i radix-ui
