@@ -48,11 +48,6 @@ export function CustomStickerForm({
         resolver: zodResolver(customStickerSchema)
     })
 
-    async function onSubmit(values: z.infer<typeof customStickerSchema>) {
-        const action =
-            
-    }
-
     return (
         <section className="border-2 border-amber-500">
             Custom Sticker Form Component
