@@ -16,16 +16,16 @@ export async function getCurrentUser({ allData = false } = {}) {
     
   }
 
-  return {
-    clerkUserId: userId,
-    userId: sessionClaims?.dbId,
-    role: sessionClaims?.role,
-    user:
-      allData && sessionClaims?.dbId != null
-        ? await getUser(sessionClaims.dbId)
-        : undefined,
-    redirectToSignIn,
-  }
+return {
+  clerkUserId: userId,
+  userId: sessionClaims?.dbId as string,
+  role: sessionClaims?.role as UserRole,
+  user:
+    allData && sessionClaims?.dbId != null
+      ? await getUser(sessionClaims.dbId as string)
+      : undefined,
+  redirectToSignIn,
+}
 }
 
 export function syncClerkUserMetadata(user: {
