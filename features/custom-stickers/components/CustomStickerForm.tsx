@@ -12,21 +12,46 @@ import { Form,
          FormItem,
          FormLabel } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 export function CustomStickerForm({
     product,
+    shape,
+    material,
+    size,
+    quantity,
 }: {
     product: {
         id: string
         product: string
     }[]
+    shape: {
+        id: string
+        shape: string
+    }[]
+    material: {
+        id: string
+        material: string
+        img: string
+    }[]
+    size: {
+        id: string
+        size: string
+    }[]
+    quantity: {
+        id: string
+        quantity: string
+    }[]
 }) {
 
     const form = useForm<z.infer<typeof customStickerSchema>>({
-        resolver: zodResolver(customStickerSchema),
-        defaultValues: {
-        }
+        resolver: zodResolver(customStickerSchema)
     })
+
+    async function onSubmit(values: z.infer<typeof customStickerSchema>) {
+        const action =
+            
+    }
 
     return (
         <section className="border-2 border-amber-500">
@@ -34,7 +59,7 @@ export function CustomStickerForm({
             <Form {...form}>
                 <FormField
                     control={form.control}
-                    name="id"
+                    name="product"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>
@@ -58,6 +83,107 @@ export function CustomStickerForm({
                             </Select>
                         </FormItem>
                     )} />
+                <FormField
+                    control={form.control}
+                    name="shape"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>
+                                Shape
+                            </FormLabel>
+                            <Select>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                </FormControl>
+                                        <SelectContent>
+                                            {shape.map((item) => (
+                                                <SelectItem key={item.id} value={item.id}>
+                                                    {item.shape}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                            </Select>
+                        </FormItem>
+                    )} />
+                <FormField
+                    control={form.control}
+                    name="material"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>
+                                Material
+                            </FormLabel>
+                            <Select>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                </FormControl>
+                                        <SelectContent>
+                                            {material.map((item) => (
+                                                <SelectItem key={item.id} value={item.id}>
+                                                    {item.material}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                            </Select>
+                        </FormItem>
+                    )} />
+                                <FormField
+                    control={form.control}
+                    name="size"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>
+                                Size
+                            </FormLabel>
+                            <Select>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                </FormControl>
+                                        <SelectContent>
+                                            {size.map((item) => (
+                                                <SelectItem key={item.id} value={item.id}>
+                                                    {item.size}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                            </Select>
+                        </FormItem>
+                    )} />
+                                                <FormField
+                    control={form.control}
+                    name="quantity"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>
+                                Quantity
+                            </FormLabel>
+                            <Select>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                </FormControl>
+                                        <SelectContent>
+                                            {quantity.map((item) => (
+                                                <SelectItem key={item.id} value={item.id}>
+                                                    {item.quantity}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                            </Select>
+                        </FormItem>
+                    )} />
+            <div className="self-end">
+                <Button disabled={form.formState.isSubmitting} type="submit">
+                    Save
+                </Button>
+            </div>
             </Form>
         </section>
     )

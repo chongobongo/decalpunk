@@ -9,7 +9,12 @@ import { customStickerQuantityData } from '@/features/custom-stickers/data/custo
 const page = () => {
   return (
 <section>
-    <h3>Custom Sticker Form</h3>
+      <CustomStickerForm
+            product={productListData}
+            shape={customStickerShape}
+            material={customStickerMaterialData}
+            size={customStickerSizeData}
+            quantity={customStickerQuantityData} />
 </section>
   )
 }
