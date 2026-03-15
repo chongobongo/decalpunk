@@ -1,3 +1,14 @@
+
+Dynamic IO / Use Cache:
+    const nextConfig = {
+    experimental: {
+        dynamicIO: true,  // enables "use cache" + cacheTag/cacheLife
+    },
+    };
+
+    export default nextConfig;
+    *** dynamicIO is the broader flag that enables the whole suite ("use cache", cacheTag, cacheLife, etc.), while useCache is the more targeted one. Since you're already using cacheTag, dynamicIO is likely the right choice.
+
 ZOD VALIDATION: https://zod.dev/
     npm: https://www.npmjs.com/package/zod
         npm i zod
