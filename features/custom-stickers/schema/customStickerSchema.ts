@@ -7,4 +7,5 @@ export const customStickerSchema = z.object({
     material: z.string,
     size: z.string,
     quantity: z.string,
+    img: z.string
 })

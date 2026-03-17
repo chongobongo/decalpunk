@@ -1,8 +1,10 @@
 import { UserRole } from "@/db/schemaDB";
-import { insertUser } from "@/features/users/db/users"
-import { syncClerkUserMetadata } from "@/services/clerk"
-import { currentUser } from "@clerk/nextjs/server"
-import { NextResponse } from "next/server"
+import { insertUser } from "@/features/users/db/users";
+import { syncClerkUserMetadata } from "@/services/clerk";
+import { currentUser } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+
+export const dynamic = 'force-dynamic'; // ✅ opt out of static analysis
 
 function parseRole(role: unknown): UserRole {
   if (role === "member" || role === "admin") return role;
@@ -10,14 +12,15 @@ function parseRole(role: unknown): UserRole {
 }
 
 export async function GET(request: Request) {
-  const user = await currentUser()
+  const user = await currentUser();
+  if (user == null) return new Response("User not found", { status: 500 });
 
-  if (user == null) return new Response("User not found", { status: 500 })
   if (user.fullName == null) {
-    return new Response("User name missing", { status: 500 })
+    return new Response("User name missing", { status: 500 });
   }
+
   if (user.primaryEmailAddress?.emailAddress == null) {
-    return new Response("User email missing", { status: 500 })
+    return new Response("User email missing", { status: 500 });
   }
 
   const dbUser = await insertUser({
@@ -26,11 +29,11 @@ export async function GET(request: Request) {
     email: user.primaryEmailAddress.emailAddress,
     imageUrl: user.imageUrl,
     role: parseRole(user.publicMetadata.role),
-  })
+  });
 
-  await syncClerkUserMetadata(dbUser)
+  await syncClerkUserMetadata(dbUser);
 
-  await new Promise(res => setTimeout(res, 100))
-
-  return NextResponse.redirect(request.headers.get("referer") ?? "/")
+  // ✅ Safely fall back if referer header is absent
+  const referer = request.headers.get("referer") ?? "/";
+  return NextResponse.redirect(referer);
 }

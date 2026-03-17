@@ -1,4 +1,7 @@
 
+SUPABASE:
+    npm i @supabase/supabase-js
+
 Dynamic IO / Use Cache:
     const nextConfig = {
     experimental: {
