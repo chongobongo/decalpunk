@@ -1,4 +1,4 @@
-
+'use client'
 
 import Link from "next/link";
 
@@ -22,6 +22,7 @@ import { BrandTestimonials } from "@/features/home/componenets/BrandTestimonials
 import { Footer } from "@/features/home/componenets/Footer";
 
 import { Protest_Strike } from "next/font/google"
+
 
 
 const protestFont = Protest_Strike({
@@ -91,7 +92,15 @@ const protestFont = Protest_Strike({
     }
 ]
 
+
+
 export default function Home() {
+
+
+
+
+
+
   return (
 <main className="grid grid-cols-1 bg-slate-200">
           <Splash headline="Print Custom Stickers and Labels!"

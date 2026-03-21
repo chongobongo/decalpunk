@@ -1,5 +1,6 @@
 // app/dashboard/page.js
 
+import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar"
 
 export const metadata = {
@@ -17,8 +18,10 @@ export default function RootLayout({
   return (
 
       <body>
-        <Navbar />
-        {children}
+        <ClerkProvider>
+          <Navbar />
+          {children}
+        </ClerkProvider>
       </body>
 
   );

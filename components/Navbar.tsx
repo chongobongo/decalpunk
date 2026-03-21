@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { SignInButton, UserButton, ClerkProvider, Show, SignUpButton } from "@clerk/nextjs"
+import { SignInButton, UserButton, Show, SignUpButton } from "@clerk/nextjs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,7 +59,7 @@ export default function Navbar() {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-        <ClerkProvider>
+
           <header className="flex justify-end items-center p-4 gap-4 h-16">
             <Show when="signed-out">
               <SignInButton />
@@ -73,7 +73,6 @@ export default function Navbar() {
               <UserButton />
             </Show>
           </header>
-        </ClerkProvider>
 
   </nav>
 </header>

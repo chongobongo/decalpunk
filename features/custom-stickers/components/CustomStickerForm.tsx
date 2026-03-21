@@ -13,6 +13,7 @@ import { Form,
          FormLabel } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { createCustomStickerOrder } from "../actions/custom-sticker-actions";
 
 export function CustomStickerForm({
     product,
@@ -48,11 +49,19 @@ export function CustomStickerForm({
         resolver: zodResolver(customStickerSchema)
     })
 
+    async function onSubmit(values: z.infer<typeof customStickerSchema>) {
+        const action = createCustomStickerOrder
+        const data = await action(values)
+        console.log(data)
+    }
+
     return (
         <section className="border-2 border-amber-500">
             Custom Sticker Form Component
             <Form {...form}>
-                <FormField
+        <form
+            onSubmit={form.handleSubmit(onSubmit)}>
+                            <FormField
                     control={form.control}
                     name="product"
                     render={({ field }) => (
@@ -179,6 +188,7 @@ export function CustomStickerForm({
                     Save
                 </Button>
             </div>
+        </form>
             </Form>
         </section>
     )
