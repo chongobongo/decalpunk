@@ -46,7 +46,14 @@ export function CustomStickerForm({
 }) {
 
     const form = useForm<z.infer<typeof customStickerSchema>>({
-        resolver: zodResolver(customStickerSchema)
+        resolver: zodResolver(customStickerSchema),
+        defaultValues: {
+        product: "",
+        shape: "",
+        material: "",
+        size: "",
+        quantity: "",
+    },
     })
 
     async function onSubmit(values: z.infer<typeof customStickerSchema>) {
@@ -61,7 +68,7 @@ export function CustomStickerForm({
             <Form {...form}>
         <form
             onSubmit={form.handleSubmit(onSubmit)}>
-                            <FormField
+                <FormField
                     control={form.control}
                     name="product"
                     render={({ field }) => (
@@ -69,7 +76,7 @@ export function CustomStickerForm({
                             <FormLabel>
                                 Products
                             </FormLabel>
-                            <Select>
+                            <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue />
@@ -95,7 +102,7 @@ export function CustomStickerForm({
                             <FormLabel>
                                 Shape
                             </FormLabel>
-                            <Select>
+                            <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue />
@@ -119,7 +126,7 @@ export function CustomStickerForm({
                             <FormLabel>
                                 Material
                             </FormLabel>
-                            <Select>
+                            <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue />
@@ -143,7 +150,7 @@ export function CustomStickerForm({
                             <FormLabel>
                                 Size
                             </FormLabel>
-                            <Select>
+                            <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue />
@@ -167,7 +174,7 @@ export function CustomStickerForm({
                             <FormLabel>
                                 Quantity
                             </FormLabel>
-                            <Select>
+                            <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue />
