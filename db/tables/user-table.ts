@@ -4,7 +4,7 @@ import { userRoleEnum } from "../schemaDB";
 
  export const UsersTable = pgTable("users", {
   id,
-  clerkUserId: text().notNull().unique(),
+  clerkUserId: text(),
   email: text().notNull(),
   name: text().notNull(),
   role: userRoleEnum().notNull().default("user"),

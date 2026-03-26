@@ -16,14 +16,14 @@ const protestFont = Protest_Strike({
      weight: "400",
 })
 
-import HamburgerIcon from "@/features/navbar/components/HamburgerMenu";
-
 import { getCurrentUser } from "@/services/clerk";
 import { canAccessAdminPages } from "../permissions/general";
 
 async function AdminLink() {
     const user = await getCurrentUser({ allData: true })
       if (!canAccessAdminPages(user)) return null
+
+      console.log(user)
 
     return (
       <Link className="hover:bg-accent/10 flex items-center px-2" href="/admin">
@@ -32,23 +32,7 @@ async function AdminLink() {
     )
   }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-
-      <section>
-        <PublicNavbar />
-          {children}
-      </section>
-
-  );
-}
-
-
- function PublicNavbar () {
+ function ProtectedNavbar () {
 
   return (
     <section>
@@ -113,3 +97,21 @@ export default function RootLayout({
     </section>
   )
  }
+
+import HamburgerIcon from "@/features/navbar/components/HamburgerMenu";
+
+
+export default function ProtectedLayout({
+    children,
+
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
+
+    return (
+        <section>
+            <ProtectedNavbar />
+            {children}
+        </section>
+    )
+}

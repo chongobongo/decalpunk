@@ -56,6 +56,8 @@ export function CustomStickerForm({
     },
     })
 
+    console.log(form.formState.errors)
+
     async function onSubmit(values: z.infer<typeof customStickerSchema>) {
         const action = createCustomStickerOrder
         const data = await action(values)
@@ -166,7 +168,7 @@ export function CustomStickerForm({
                             </Select>
                         </FormItem>
                     )} />
-                                                <FormField
+                <FormField
                     control={form.control}
                     name="quantity"
                     render={({ field }) => (
@@ -190,7 +192,9 @@ export function CustomStickerForm({
                             </Select>
                         </FormItem>
                     )} />
+
             <div className="self-end">
+                <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
                 <Button disabled={form.formState.isSubmitting} type="submit">
                     Save
                 </Button>

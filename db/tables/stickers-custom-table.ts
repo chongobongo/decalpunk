@@ -4,7 +4,6 @@ import { id } from "../schemaHelpers";
 
 export const StickersCustomTable = pgTable("stickers_custom", {
     id,
-    user_id: text().notNull(),
     job_order_id: uuid(),
     product: text(),
     shape: text(),
