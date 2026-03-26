@@ -71,7 +71,7 @@ switch (evt.type) {
         imageUrl: evt.data.image_url,
         role: "user",
       })
-      await syncClerkUserMetadata(user)
+      await syncClerkUserMetadata({ ...user, clerkUserId: user.clerkUserId! })
     } else {
       await updateUser(
         { clerkUserId: evt.data.id },
