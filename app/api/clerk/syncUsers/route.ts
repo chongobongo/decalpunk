@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 
   await syncClerkUserMetadata({ ...dbUser, clerkUserId: dbUser.clerkUserId! });
 
-  // ✅ Safely fall back if referer header is absent
-  const referer = request.headers.get("referer") ?? "/";
-  return NextResponse.redirect(referer);
+const referer = request.headers.get("referer");
+const redirectUrl = referer ?? new URL("/", request.url).toString();
+return NextResponse.redirect(redirectUrl);
 }
