@@ -31,7 +31,11 @@ export async function GET(request: Request) {
     role: parseRole(user.publicMetadata.role),
   });
 
-  await syncClerkUserMetadata(dbUser);
+  if (!dbUser.clerkUserId) {
+  return new Response("User has no clerkUserId", { status: 400 });
+}
+
+  await syncClerkUserMetadata({ ...dbUser, clerkUserId: dbUser.clerkUserId! });
 
   // ✅ Safely fall back if referer header is absent
   const referer = request.headers.get("referer") ?? "/";
