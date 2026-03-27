@@ -4,7 +4,7 @@ import { syncClerkUserMetadata } from "@/services/clerk";
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-export const dynamic = 'force-dynamic'; // ✅ opt out of static analysis
+export const dynamic = 'force-dynamic';
 
 function parseRole(role: unknown): UserRole {
   if (role === "member" || role === "admin") return role;
@@ -14,11 +14,9 @@ function parseRole(role: unknown): UserRole {
 export async function GET(request: Request) {
   const user = await currentUser();
   if (user == null) return new Response("User not found", { status: 500 });
-
   if (user.fullName == null) {
     return new Response("User name missing", { status: 500 });
   }
-
   if (user.primaryEmailAddress?.emailAddress == null) {
     return new Response("User email missing", { status: 500 });
   }
@@ -32,12 +30,12 @@ export async function GET(request: Request) {
   });
 
   if (!dbUser.clerkUserId) {
-  return new Response("User has no clerkUserId", { status: 400 });
-}
+    return new Response("User has no clerkUserId", { status: 400 });
+  }
 
   await syncClerkUserMetadata({ ...dbUser, clerkUserId: dbUser.clerkUserId! });
 
-const referer = request.headers.get("referer");
-const redirectUrl = referer ?? new URL("/", request.url).toString();
-return NextResponse.redirect(redirectUrl);
+  // Redirect to home using absolute URL — session will refresh on next load
+  const origin = new URL(request.url).origin;
+  return NextResponse.redirect(new URL("/", origin));
 }
