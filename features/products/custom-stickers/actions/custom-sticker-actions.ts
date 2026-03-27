@@ -6,11 +6,15 @@ import { customStickerSchema } from "../schema/customStickerSchema"
 export async function createCustomStickerOrder(unsafeData: z.infer<typeof customStickerSchema>) {
     const { success, data } = customStickerSchema.safeParse(unsafeData)
     if (!success) {
-        console.log("Zod error:", Error)
         return { error: true, message: "There was an error creating your order." }
     }
-    console.log("insert payload:", data)
-    const order = await insertCustomStickerOrder(data)
-    console.log(order)
-    return { error: false, message: "Order created!", redirectUrl: "/" }
+    
+    try {
+        const order = await insertCustomStickerOrder(data)
+        console.log("order created:", order)
+        return { error: false, message: "Order created!", redirectUrl: "/" }
+    } catch (e) {
+        console.error("insertCustomStickerOrder failed:", e)
+        return { error: true, message: String(e) }
+    }
 }
