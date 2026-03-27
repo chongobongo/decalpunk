@@ -4,21 +4,12 @@ import { getUserIdTag } from "@/features/users/db/cache"
 import { auth, clerkClient } from "@clerk/nextjs/server"
 import { eq } from "drizzle-orm"
 import { cacheTag } from "next/dist/server/use-cache/cache-tag"
-import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 
 const client = await clerkClient()
 
 export async function getCurrentUser({ allData = false } = {}) {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
-  
-  if (userId != null && sessionClaims?.dbId == null) {
-    const headersList = await headers()
-    const pathname = headersList.get("x-pathname") ?? ""
-    if (!pathname.includes("syncUsers")) {
-      redirect("/api/clerk/syncUsers")
-    }
-  }
 
   return {
     clerkUserId: userId,

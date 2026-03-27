@@ -10,16 +10,18 @@ const isPublic = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-pathname", request.nextUrl.pathname);
+  const { userId, sessionClaims } = await auth();
+
+  // If user is logged in but not synced, redirect to sync route
+  if (userId != null && sessionClaims?.dbId == null && !request.nextUrl.pathname.includes("syncUsers")) {
+    return NextResponse.redirect(new URL("/api/clerk/syncUsers", request.url));
+  }
 
   if (!isPublic(request)) {
     await auth.protect();
   }
 
-  return NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  return NextResponse.next();
 });
 
 export const config = {
