@@ -14,7 +14,7 @@ export async function getCurrentUser({ allData = false } = {}) {
   
   if (userId != null && sessionClaims?.dbId == null) {
     const headersList = await headers()
-    const pathname = headersList.get("x-invoke-path") ?? ""
+    const pathname = headersList.get("x-pathname") ?? ""
     if (!pathname.includes("syncUsers")) {
       redirect("/api/clerk/syncUsers")
     }
