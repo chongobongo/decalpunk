@@ -6,7 +6,8 @@ export async function insertCustomStickerOrder(data: typeof StickersCustomTable.
         const [newCustomStickerOrder] = await tx
             .insert(StickersCustomTable)
             .values(data)
-
-            console.log(newCustomStickerOrder)
+            .returning()
+        console.log(newCustomStickerOrder)
+        return newCustomStickerOrder
     })
 }
