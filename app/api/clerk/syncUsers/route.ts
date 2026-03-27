@@ -35,7 +35,8 @@ export async function GET(request: Request) {
 
   await syncClerkUserMetadata({ ...dbUser, clerkUserId: dbUser.clerkUserId! });
 
-  // Redirect to home using absolute URL — session will refresh on next load
   const origin = new URL(request.url).origin;
-  return NextResponse.redirect(new URL("/", origin));
+  const response = NextResponse.redirect(new URL("/", origin));
+  response.cookies.set("synced", "true", { maxAge: 10 });
+  return response;
 }

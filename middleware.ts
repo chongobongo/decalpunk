@@ -11,9 +11,14 @@ const isPublic = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId, sessionClaims } = await auth();
+  const alreadySynced = request.cookies.get("synced")?.value === "true";
 
-  // If user is logged in but not synced, redirect to sync route
-  if (userId != null && sessionClaims?.dbId == null && !request.nextUrl.pathname.includes("syncUsers")) {
+  if (
+    userId != null &&
+    sessionClaims?.dbId == null &&
+    !alreadySynced &&
+    !request.nextUrl.pathname.includes("syncUsers")
+  ) {
     return NextResponse.redirect(new URL("/api/clerk/syncUsers", request.url));
   }
 
