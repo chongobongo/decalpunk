@@ -42,8 +42,11 @@ export function CustomStickerForm({
         },
     })
 
-    async function onSubmit(values: z.infer<typeof customStickerSchema>) {
+async function onSubmit(values: z.infer<typeof customStickerSchema>) {
+    console.log("onSubmit called", values)
+    try {
         const data = await createCustomStickerOrder(values)
+        console.log("response:", data)
         if (data?.error) {
             console.error(data.message)
             return
@@ -51,7 +54,10 @@ export function CustomStickerForm({
         if (data?.redirectUrl) {
             router.push(data.redirectUrl)
         }
+    } catch (e) {
+        console.error("caught error:", e)
     }
+}
 
     return (
         <section className="border-2 border-amber-500">
