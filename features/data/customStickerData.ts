@@ -20,7 +20,7 @@ export const productListData = [
 export const customStickerShape = [
     {
         id: "0",
-        shape: "Contoure Cut"
+        shape: "Contour Cut"
     },
     {
         id: "1",

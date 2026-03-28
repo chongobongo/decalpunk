@@ -73,7 +73,7 @@ async function onSubmit(values: z.infer<typeof customStickerSchema>) {
                                 </FormControl>
                                 <SelectContent>
                                     {product.map((item) => (
-                                        <SelectItem key={item.id} value={item.id}>{item.product}</SelectItem>
+                                        <SelectItem key={item.id} value={item.product}>{item.product}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -88,7 +88,7 @@ async function onSubmit(values: z.infer<typeof customStickerSchema>) {
                                 </FormControl>
                                 <SelectContent>
                                     {shape.map((item) => (
-                                        <SelectItem key={item.id} value={item.id}>{item.shape}</SelectItem>
+                                        <SelectItem key={item.id} value={item.shape}>{item.shape}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -103,7 +103,7 @@ async function onSubmit(values: z.infer<typeof customStickerSchema>) {
                                 </FormControl>
                                 <SelectContent>
                                     {material.map((item) => (
-                                        <SelectItem key={item.id} value={item.id}>{item.material}</SelectItem>
+                                        <SelectItem key={item.id} value={item.material}>{item.material}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -118,7 +118,7 @@ async function onSubmit(values: z.infer<typeof customStickerSchema>) {
                                 </FormControl>
                                 <SelectContent>
                                     {size.map((item) => (
-                                        <SelectItem key={item.id} value={item.id}>{item.size}</SelectItem>
+                                        <SelectItem key={item.id} value={item.size}>{item.size}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
@@ -133,7 +133,7 @@ async function onSubmit(values: z.infer<typeof customStickerSchema>) {
                                 </FormControl>
                                 <SelectContent>
                                     {quantity.map((item) => (
-                                        <SelectItem key={item.id} value={item.id}>{item.quantity}</SelectItem>
+                                        <SelectItem key={item.id} value={item.quantity}>{item.quantity}</SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
