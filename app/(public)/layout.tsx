@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { SignInButton, UserButton, Show, SignUpButton } from "@clerk/nextjs"
+import { SignedIn, SignInButton, UserButton, Show, SignUpButton } from "@clerk/nextjs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -92,7 +92,9 @@ export default function RootLayout({
       </DropdownMenu>
     </div>
 
-      <AdminLink />
+          <SignedIn>
+            <AdminLink />
+          </SignedIn>
 
           <header className="flex justify-end items-center p-4 gap-4 h-16">
             <Show when="signed-out">
