@@ -11,14 +11,16 @@ const client = await clerkClient()
 export async function getCurrentUser({ allData = false } = {}) {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
 
+  const dbUser =
+    allData && sessionClaims?.dbId != null
+      ? await getUser(sessionClaims.dbId as string)
+      : undefined
+
   return {
     clerkUserId: userId,
     userId: sessionClaims?.dbId as string | undefined,
-    role: sessionClaims?.role as UserRole,
-    user:
-      allData && sessionClaims?.dbId != null
-        ? await getUser(sessionClaims.dbId as string)
-        : undefined,
+    role: (dbUser?.role ?? sessionClaims?.role) as UserRole ?? "user", // 👈 prefer DB role
+    user: dbUser,
     redirectToSignIn,
   }
 }

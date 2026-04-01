@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 const isPublic = createRouteMatcher([
   "/",
+  "/tour",
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/clerk/syncUsers",

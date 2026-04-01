@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { SignInButton, UserButton, Show, SignUpButton } from "@clerk/nextjs"
+import { UserButton } from "@clerk/nextjs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,110 +7,132 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdownMenu";
+} from "@/components/ui/dropdownMenu"
 import { Protest_Strike } from "next/font/google"
+import HamburgerIcon from "@/features/navbar/components/HamburgerMenu"
+import { getCurrentUser } from "@/services/clerk"
+
+import { UserRole } from "@/db/schemaDB"
+
 const protestFont = Protest_Strike({
-     subsets: ["latin"],
-     weight: "400",
+  subsets: ["latin"],
+  weight: "400",
 })
-import HamburgerIcon from "@/features/navbar/components/HamburgerMenu";
-import { getCurrentUser } from "@/services/clerk";
-import { canAccessAdminPages } from "../permissions/general";
 
-async function AdminBadge() {
-  const { role, userId } = await getCurrentUser()
-  if (!userId || role !== "admin") return null
-  return (
-    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
-      Admin
-    </span>
-  )
+type NavLink = { href: string; label: string }
+
+type NavConfig = {
+  bg: string
+  roleLabel: string
+  links: NavLink[]
 }
 
-async function AdminLink() {
+const navConfigs = {
+  admin: {
+    bg: "bg-emerald-900",
+    roleLabel: "Admin",
+    links: [
+      { href: "/stickers",  label: "Stickers"   },
+      { href: "/labels",    label: "Labels"      },
+      { href: "/materials", label: "Materials"   },
+      { href: "/admin",     label: "Admin Panel" },
+    ],
+  },
+  member: {
+    bg: "bg-amber-800",
+    roleLabel: "Member",
+    links: [
+      { href: "/stickers",  label: "Stickers"  },
+      { href: "/labels",    label: "Labels"    },
+      { href: "/materials", label: "Materials" },
+    ],
+  },
+  user: {                    // 👈 "authenticated" → "user"
+    bg: "bg-black",
+    roleLabel: "User",
+    links: [
+      { href: "/stickers",  label: "Stickers"  },
+      { href: "/labels",    label: "Labels"    },
+      { href: "/materials", label: "Materials" },
+    ],
+  },
+}
+
+async function Navbar() {
   const user = await getCurrentUser({ allData: true })
-  if (!user.userId || !canAccessAdminPages(user)) return null
+  console.log("Navbar user →", user)
+  if (!user.clerkUserId) return null
+
+const config: NavConfig = navConfigs[user.role as UserRole] ?? navConfigs.user
+
   return (
-    <Link className="hover:bg-accent/10 flex items-center px-2 bg-gray-400" href="/admin">
-      Admin
-    </Link>
+    <header className={`h-12 shadow z-10 ${config.bg}`}>
+      <nav className="mx-10 flex flex-row items-center h-full">
+
+        {/* Logo */}
+        <Link className="mr-6 text-white font-bold tracking-wide" href="/">
+          Decal Punk
+        </Link>
+
+        {/* Role badge */}
+        <span className={`hidden lg:inline-block text-xs text-white/40 mr-6 ${protestFont.className}`}>
+          {config.roleLabel}
+        </span>
+
+        {/* Desktop nav links */}
+        <ul className={`hidden lg:flex flex-row gap-4 text-amber-300 ${protestFont.className}`}>
+          {config.links.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} className="hover:text-white transition-colors">
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Hamburger — mobile only */}
+        <div className="ml-auto lg:hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="text-white focus:outline-none">
+                <HamburgerIcon />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuLabel className="text-xs text-muted-foreground">
+                {config.roleLabel}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {config.links.map((link) => (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link href={link.href} className="w-full cursor-pointer">
+                    {link.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        {/* Auth area */}
+        <div className="hidden lg:flex justify-end items-center gap-4 ml-auto h-full">
+          <UserButton />
+        </div>
+
+      </nav>
+    </header>
   )
 }
 
-export default function RootLayout({
+export default function NavLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <section>
-      <PublicNavbar />
+      <Navbar />
       {children}
-    </section>
-  );
-}
-
-function PublicNavbar() {
-  return (
-    <section>
-      <header className="h-12 shadow z-10 bg-black">
-        <nav className="mx-10 flex flex-row items-center h-full">
-
-          {/* Logo - always visible */}
-          <Link className="mr-10 text-white font-bold tracking-wide" href="/">
-            Decal Punk
-          </Link>
-
-          {/* Desktop nav links - hidden on mobile */}
-          <ul className={`hidden lg:flex flex-row gap-4 text-amber-300 ${protestFont.className}`}>
-            <li><Link href="/stickers">Stickers</Link></li>
-            <li><Link href="/labels">Labels</Link></li>
-            <li><Link href="/materials">Materials</Link></li>
-          </ul>
-
-          {/* Hamburger - pushed to far right on mobile, hidden on desktop */}
-          <div className="ml-auto lg:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="text-white focus:outline-none">
-                  <HamburgerIcon />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <DropdownMenuLabel>Menu</DropdownMenuLabel>
-                <DropdownMenuItem>
-                  <Link href="/stickers" className="w-full cursor-pointer">Stickers</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href="/labels" className="w-full cursor-pointer">Labels</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href="/materials" className="w-full cursor-pointer">Materials</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          <AdminLink />
-
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <AdminBadge />
-            <Show when="signed-out">
-              <SignInButton />
-              <SignUpButton>
-                <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
-          </header>
-        </nav>
-      </header>
     </section>
   )
 }

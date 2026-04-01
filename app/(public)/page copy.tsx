@@ -22,7 +22,6 @@ import { BrandTestimonials } from "@/features/home/componenets/BrandTestimonials
 import { Footer } from "@/features/home/componenets/Footer";
 
 import { Protest_Strike } from "next/font/google"
-import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
 
 
 
@@ -98,11 +97,13 @@ const protestFont = Protest_Strike({
 export default function Home() {
 
 
-  return (
 
-      <main className="grid grid-cols-1 bg-slate-200">
-        <Show when="signed-in">
-                   <Splash headline="Print Custom Stickers and Labels!"
+
+
+
+  return (
+<main className="grid grid-cols-1 bg-slate-200">
+          <Splash headline="Print Custom Stickers and Labels!"
               paragraph="Make your own custom stickers and labels. Express delivery as fast as 2-4 business days. Get an instant proof and free shipping!"
               button_text="Make a custom sticker"
               link_text="All sticker products."/>
@@ -152,32 +153,6 @@ export default function Home() {
       <div id="footer" className="mt-6">
         <Footer />
       </div>
-        </Show>
-<Show when="signed-out">
-  <div className="flex flex-col min-h-screen">
-    
-    {/* Tour section - don't use h-screen, let it be flexible */}
-    <div id="construction-field" className='flex-1 flex flex-col items-center justify-center text-center bg-black'>
-      <Link href="./tour">
-        <div className={`text-4xl text-white ${protestFont.className}`}>We're under construction</div>
-        <div className={`text-4xl text-white ${protestFont.className}`}>Excited to present to you the best decal and sticker site there is!</div>
-        <div className={`text-4xl text-white ${protestFont.className}`}>Take a tour while we work?</div>
-      </Link>
-    </div>
-
-    {/* Sign-in button - pinned at the bottom */}
-    <div className="bg-black flex justify-center items-center py-6">
-      <SignInButton mode="modal">
-        <button className="px-6 py-3 bg-white text-black rounded-lg text-xl hover:bg-gray-800 transition">
-          Sign In
-        </button>
-      </SignInButton>
-    </div>
-
-  </div>
-</Show>
 </main> 
-
-
   );
 }
