@@ -1,5 +1,4 @@
-
-
+// navData stays as pure data — no JSX
 export const navData = {
     admin: {
         bg: "bg-emerald-900",
