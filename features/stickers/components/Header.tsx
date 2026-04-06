@@ -9,12 +9,10 @@ export const StickerHeader = ({
 
     return (
 
-        <section>
-            <Link href="/">
-                <div id="stickerHeader" className={`w-screen bg-amber-300`}>
+        <section className="w-screen h-60 bg-amber-200 flex items-center justify-center">
+                <div>
                     {headline}
                 </div>
-            </Link>
         </section>
     )
 }

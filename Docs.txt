@@ -22,6 +22,7 @@ REACT ICONS: https://react-icons.github.io/react-icons/
 RADIX UI:
     npm install @radix-ui/react-dropdown-menu
     npm i @radix-ui/react-checkbox
+    npm install @radix-ui/react-slider
 
 LUCIDE REACT:
     npm i lucide-react

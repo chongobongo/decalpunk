@@ -1,4 +1,9 @@
+// Public Layout - Decal Punk
+// app\(public)\layout.tsx
+
 import Link from "next/link"
+import { navData } from "../data"
+
 import { UserButton } from "@clerk/nextjs"
 import {
   DropdownMenu,
@@ -27,43 +32,14 @@ type NavConfig = {
   links: NavLink[]
 }
 
-const navConfigs = {
-  admin: {
-    bg: "bg-emerald-900",
-    roleLabel: "Admin",
-    links: [
-      { href: "/stickers",  label: "Stickers"   },
-      { href: "/labels",    label: "Labels"      },
-      { href: "/materials", label: "Materials"   },
-      { href: "/admin",     label: "Admin Panel" },
-    ],
-  },
-  member: {
-    bg: "bg-amber-800",
-    roleLabel: "Member",
-    links: [
-      { href: "/stickers",  label: "Stickers"  },
-      { href: "/labels",    label: "Labels"    },
-      { href: "/materials", label: "Materials" },
-    ],
-  },
-  user: {                    // 👈 "authenticated" → "user"
-    bg: "bg-black",
-    roleLabel: "User",
-    links: [
-      { href: "/stickers",  label: "Stickers"  },
-      { href: "/labels",    label: "Labels"    },
-      { href: "/materials", label: "Materials" },
-    ],
-  },
-}
+
 
 async function Navbar() {
   const user = await getCurrentUser({ allData: true })
   console.log("Navbar user →", user)
   if (!user.clerkUserId) return null
 
-const config: NavConfig = navConfigs[user.role as UserRole] ?? navConfigs.user
+const config: NavConfig = navData[user.role as UserRole] ?? navData.user
 
   return (
     <header className={`h-12 shadow z-10 ${config.bg}`}>

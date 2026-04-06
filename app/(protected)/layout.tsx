@@ -1,3 +1,6 @@
+// Admin Layout - Decal Punk
+// app\(protected)\layout.tsx
+
 import Link from "next/link"
 import { SignInButton, UserButton, Show, SignUpButton } from "@clerk/nextjs"
 import {

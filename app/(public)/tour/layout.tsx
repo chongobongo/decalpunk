@@ -1,3 +1,6 @@
+// Tour Layout - Decal Punk
+// app\(public)\tour\layout.tsx
+
 import Link from "next/link"
 import { SignInButton, UserButton, Show, SignUpButton } from "@clerk/nextjs"
 import {

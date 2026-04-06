@@ -1,54 +1,13 @@
-"use client"
+// Materials Vinyl Details Page / Order Form - Decval Punk
+// app\(public)\materials\(details)\vinyl\page.tsx
 
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { vinylSelectorData } from '@/app/data'
-import { useForm } from 'react-hook-form'
-import { Button } from '@/components/ui/button'
-
-
-const vinylDetailsPage = () => {
-
-
-const form = useForm()
-
-async function onSubmit() {
-
-}
-
+const VinylDetailsPage = () => {
   return (
-    <section>
-      <h3>Vinyl Details Page</h3>
-
-      <Form {...form}>
-        <form>
-          <FormField control={form.control} name="product" render={({ field }) => (
-            <FormItem>
-              <FormLabel>Products</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {vinylSelectorData.map((item) => (
-                                        <SelectItem key={item.id} value={item.selector}>{item.selector}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </FormItem>
-                    )} />
-
-
-                    <div className="self-end">
-                        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
-                        <Button disabled={form.formState.isSubmitting} type="submit">
-                            Save
-                        </Button>
-                    </div>
-        </form>
-      </Form>
-    </section>
+<div className="w-screen h-screen bg-amber-200 flex items-center justify-center">
+    <h3>Vinyl Details Page / Order Form</h3>
+</div>
   )
 }
 
-export default vinylDetailsPage
+export default VinylDetailsPage
+

@@ -1,20 +1,14 @@
-import React from 'react'
+// Custom Stickers Order Form - Decal Punk
+// app\(public)\stickers\(pages)\custom-stickers\page.tsx
+
 import { CustomStickerForm } from '@/features/products/custom-stickers/components/CustomStickerForm'
-import { productListData } from '@/features/data/customStickerData'
-import { customStickerShape } from '@/features/data/customStickerData'
-import { customStickerMaterialData } from '@/features/data/customStickerData'
-import { customStickerSizeData } from '@/features/data/customStickerData'
-import { customStickerQuantityData } from '@/features/data/customStickerData'
+import { productData } from '@/app/data'
 
 const page = () => {
   return (
 <section>
       <CustomStickerForm
-            product={productListData}
-            shape={customStickerShape}
-            material={customStickerMaterialData}
-            size={customStickerSizeData}
-            quantity={customStickerQuantityData} />
+            products={productData} />
 </section>
   )
 }

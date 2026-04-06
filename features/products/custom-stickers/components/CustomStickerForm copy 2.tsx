@@ -12,20 +12,13 @@ import { Button } from "@/components/ui/button";
 
 import { customStickerSchema } from "../schema/customStickerSchema";
 import { createCustomStickerOrder } from "../actions/custom-sticker-actions";
-import { MaterialCardSlider } from "./MaterialCardSlider";
-import { SplashSlider } from "./SplashSlider";
 
 type Product = {
     id: string;
     product: string;
     shapes: { id: string; shape: string }[];
-    materials: {
-        id: string;
-        material: string;
-        img: string;
-        price: number;
-        finishes: { id: string; finish: string }[];
-    }[];
+    materials: { id: string; material: string; img: string }[];
+    finishes: { id: string; finish: string }[];
     sizes: { id: string; size: string }[];
     quantities: { id: string; quantity: string }[];
 };
@@ -50,11 +43,9 @@ export function CustomStickerForm({
     })
 
     const selectedProductId = form.watch("product")
-    const selectedMaterialId = form.watch("material")
-
     const selectedProduct = products.find((p) => p.id === selectedProductId) ?? null
-    const selectedMaterial = selectedProduct?.materials.find((m) => m.id === selectedMaterialId) ?? null
 
+    // Reset dependent fields when product changes
     useEffect(() => {
         form.resetField("shape")
         form.resetField("material")
@@ -62,10 +53,6 @@ export function CustomStickerForm({
         form.resetField("size")
         form.resetField("quantity")
     }, [selectedProductId])
-
-    useEffect(() => {
-        form.resetField("finish")
-    }, [selectedMaterialId])
 
     async function onSubmit(values: z.infer<typeof customStickerSchema>) {
         try {
@@ -84,8 +71,7 @@ export function CustomStickerForm({
 
     return (
         <section className="border-2 border-amber-500">
-        <div className="grid grid-cols-2">
-            <SplashSlider />
+            Custom Sticker Form Component
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
 
@@ -97,7 +83,7 @@ export function CustomStickerForm({
                                 <FormControl>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                 </FormControl>
-                                <SelectContent className="bg-white">
+                                <SelectContent>
                                     {products.map((item) => (
                                         <SelectItem key={item.id} value={item.id}>{item.product}</SelectItem>
                                     ))}
@@ -114,7 +100,7 @@ export function CustomStickerForm({
                                 <FormControl>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                 </FormControl>
-                                <SelectContent className="bg-white">
+                                <SelectContent>
                                     {selectedProduct?.shapes.map((item) => (
                                         <SelectItem key={item.id} value={item.shape}>{item.shape}</SelectItem>
                                     ))}
@@ -127,11 +113,16 @@ export function CustomStickerForm({
                     <FormField control={form.control} name="material" render={({ field }) => (
                         <FormItem>
                             <FormLabel>Material</FormLabel>
-                            <MaterialCardSlider
-                                materials={selectedProduct?.materials ?? []}
-                                value={field.value}
-                                onChange={field.onChange}
-                            />
+                            <Select onValueChange={field.onChange} value={field.value} disabled={!selectedProduct}>
+                                <FormControl>
+                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {selectedProduct?.materials.map((item) => (
+                                        <SelectItem key={item.id} value={item.material}>{item.material}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </FormItem>
                     )} />
 
@@ -139,12 +130,12 @@ export function CustomStickerForm({
                     <FormField control={form.control} name="finish" render={({ field }) => (
                         <FormItem>
                             <FormLabel>Finish</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value} disabled={!selectedMaterial}>
+                            <Select onValueChange={field.onChange} value={field.value} disabled={!selectedProduct}>
                                 <FormControl>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                 </FormControl>
-                                <SelectContent className="bg-white">
-                                    {selectedMaterial?.finishes.map((item) => (
+                                <SelectContent>
+                                    {selectedProduct?.finishes.map((item) => (
                                         <SelectItem key={item.id} value={item.finish}>{item.finish}</SelectItem>
                                     ))}
                                 </SelectContent>
@@ -160,7 +151,7 @@ export function CustomStickerForm({
                                 <FormControl>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                 </FormControl>
-                                <SelectContent className="bg-white">
+                                <SelectContent>
                                     {selectedProduct?.sizes.map((item) => (
                                         <SelectItem key={item.id} value={item.size}>{item.size}</SelectItem>
                                     ))}
@@ -177,7 +168,7 @@ export function CustomStickerForm({
                                 <FormControl>
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                 </FormControl>
-                                <SelectContent className="bg-white">
+                                <SelectContent>
                                     {selectedProduct?.quantities.map((item) => (
                                         <SelectItem key={item.id} value={item.quantity}>{item.quantity}</SelectItem>
                                     ))}
@@ -186,26 +177,14 @@ export function CustomStickerForm({
                         </FormItem>
                     )} />
 
-                    {/* Price */}
-                    <div className="flex items-center justify-between py-3 border-t border-gray-200 mt-2">
-                        <span className="text-sm font-medium text-gray-600">Price</span>
-                        {selectedMaterial ? (
-                            <span className="text-xl font-bold text-amber-500">
-                                ${selectedMaterial.price.toFixed(2)}
-                            </span>
-                        ) : (
-                            <span className="text-sm text-gray-400">Select a material</span>
-                        )}
-                    </div>
-
                     <div className="self-end">
+                        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
                         <Button disabled={form.formState.isSubmitting} type="submit">
                             Save
                         </Button>
                     </div>
                 </form>
             </Form>
-        </div>
         </section>
     )
 }

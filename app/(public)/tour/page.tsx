@@ -1,4 +1,5 @@
-import React from 'react'
+// Tour Home Page
+// app\(public)\tour\page.tsx
 
 const tourPage = () => {
   return (
