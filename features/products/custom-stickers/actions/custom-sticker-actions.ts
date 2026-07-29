@@ -1,15 +1,19 @@
+// custom-sticker-actions.ts
+// features\products\custom-stickers\actions\custom-sticker-actions.ts
+
 "use server"
-import z from "zod"
-import { insertCustomStickerOrder } from "../db/custom-sticker-db"
+import { UTApi } from "uploadthing/server"
 import { customStickerSchema } from "../schema/customStickerSchema"
+import { insertCustomStickerOrder } from "../db/custom-sticker-db"
 import { getCurrentUser } from "@/services/clerk"
 import { canCreateOrder } from "@/app/permissions/general"
 
-export async function createCustomStickerOrder(unsafeData: z.infer<typeof customStickerSchema>) {
+const utapi = new UTApi()
+
+export async function createCustomStickerOrder(formData: FormData) {
     try {
         const user = await getCurrentUser()
-        console.log("user:", JSON.stringify(user))
-        
+
         if (user.userId == null) {
             return { error: true, message: "You must be logged in to create an order." }
         }
@@ -18,12 +22,42 @@ export async function createCustomStickerOrder(unsafeData: z.infer<typeof custom
             return { error: true, message: "You do not have permission to create an order." }
         }
 
-        const { success, data } = customStickerSchema.safeParse(unsafeData)
+        // FormData values come back as FormDataEntryValue | null (string | File | null).
+        // Rebuild a plain object and re-validate server-side — never trust client validation alone.
+        const raw = {
+            image: formData.get("image"),
+            product: formData.get("product"),
+            shape: formData.get("shape"),
+            material: formData.get("material"),
+            finish: formData.get("finish"),
+            size: formData.get("size"),
+            quantity: formData.get("quantity"),
+        }
+
+        const { success, data, error } = customStickerSchema.safeParse(raw)
         if (!success) {
+            console.error("validation error:", error.flatten())
             return { error: true, message: "There was an error creating your order." }
         }
 
-        const order = await insertCustomStickerOrder({ ...data, user_id: user.userId })
+        const uploadResult = await utapi.uploadFiles(data.image!)
+
+        if (uploadResult.error) {
+            console.error("upload error:", uploadResult.error)
+            return { error: true, message: "There was an error uploading your artwork." }
+        }
+
+        const order = await insertCustomStickerOrder({
+            product: data.product,
+            shape: data.shape,
+            material: data.material,
+            finish: data.finish,
+            size: data.size,
+            quantity: data.quantity,
+            img: uploadResult.data.ufsUrl,
+            user_id: user.userId,
+        })
+
         console.log("order created:", order)
         return { error: false, message: "Order created!", redirectUrl: "/" }
     } catch (e: any) {

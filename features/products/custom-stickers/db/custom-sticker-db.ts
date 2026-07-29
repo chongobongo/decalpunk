@@ -1,3 +1,6 @@
+// custom-sticker-db.ts
+// features\products\custom-stickers\db\custom-sticker-db.ts
+
 import { db } from "@/db";
 import { StickersCustomTable } from "@/db/schemaDB";
 

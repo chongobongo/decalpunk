@@ -101,3 +101,10 @@ CLERK AUTHORIZATION: https://dashboard.clerk.com/apps/app_2sMeZuoPOdB1echYFIzQig
            How to Install Ngrok on Windows 11 | Expose your localhost to everyone | NGROK SETUP: https://www.youtube.com/watch?v=aFwrNSfthxU
         npm i ngrok
         Terminal Command: ngrok http http://localhost:3000
+
+
+UPLOADER
+    The uploader for Decal Punk uses React Dropzone for the interface and Upload Thing for function. 
+        React Dropzone: npm i react-dropzone
+        Upload Thing:   npm install uploadthing @uploadthing/react
+                        npm i @uploadthing/react

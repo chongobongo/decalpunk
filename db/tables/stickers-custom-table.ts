@@ -1,3 +1,6 @@
+// sticker-cutom-table
+// db/tables/stickers-custom-table.ts
+
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { id, created_at, updated_at } from "../schemaHelpers";
 
