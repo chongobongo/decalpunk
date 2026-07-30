@@ -97,6 +97,7 @@ export function CustomStickerForm({
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="grid grid-cols-2">
+                {/* Dropzone */}
                         <div id="dropzone">
                             <FormField control={form.control} name="image" render={({ field }) => (
                                 <FormItem>
