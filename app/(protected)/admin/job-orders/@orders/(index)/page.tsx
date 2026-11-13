@@ -16,7 +16,7 @@ export default async function jobOrdersPage() {
 
     const jobOrdersList: any = await getJobOrdersList()
 
-    if (jobOrdersList == null) return notFound
+  if (jobOrdersList == null) return notFound()
 
     console.log(jobOrdersList)
 
