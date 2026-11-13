@@ -120,3 +120,124 @@ STRIPE
     Stop and run serve:
         rm -rf .next
         npm run dev
+
+*** Git hub Pusher
+    Pushing The Project:
+        1. See where your local folder will push:   git remote -v
+        2. Confirm it’s the right repo:     git log --oneline -5
+        3. Check which repo each Vercel project is tied to:     git branch
+
+    Pushing to a branch:
+        1. Create a new branch and switch to it:    git checkout -b my-changes
+            (Or git switch -c my-changes.) Name it something descriptive, like update-homepage.
+            This creates the branch on GitHub without touching main.
+        2. Stage and commit as usual:   git add.
+                                        git commit -m "Describe what you changed"
+
+            4. Open a pull request
+            GitHub will usually show a yellow “Compare & pull request” banner on your repo page after the push. Click it, add a description, and create the PR. You can also run gh pr create if you use the GitHub CLI.
+
+            5. Review the Vercel preview
+            Because Vercel’s production branch is main, any other branch gets a preview deployment with its own URL. Vercel posts that link as a comment on the pull request (and it’s also listed in your project’s Deployments tab). Click through it to test your changes on a live site without affecting production.
+
+            6. Merge when ready
+            On the PR, click Merge pull request. That updates main, which triggers a production deploy. Afterward, you can sync your local copy:
+
+            git checkout main
+            git pull
+
+Deleting a project from GitHub using the C.L.I: 
+GitHub (GitHub CLI)
+
+Install it if you haven’t: brew install gh (Mac) or see cli.github.com for other platforms.
+Log in: gh auth login
+Deleting a repo requires an extra permission, which you grant once:
+gh auth refresh -h github.com -s delete_repo
+Delete it:
+gh repo delete chongobongo/decal-punk
+
+It asks you to type the repo name to confirm. There’s no undo (GitHub keeps deleted repos restorable for about 90 days, but only through their support or settings page, so don’t count on it).
+
+If you’d rather be safe, archive instead:
+
+gh repo archive chongobongo/decal-punk
+
+Vercel (Vercel CLI)
+
+Install and log in:
+npm i -g vercel
+vercel login
+List your projects to confirm the exact names:
+vercel project ls
+Remove the one you don’t want:
+vercel project rm decal-punk
+
+It asks for confirmation before deleting.
+
+Order of operations: Delete the Vercel project first, then the GitHub repo, as discussed. Before running either command, double-check that:
+
+decal-punk (with the hyphen) is the one you’re removing, and that your local folder’s remote is decalpunk (no hyphen). One typo here deletes the wrong thing.
+No custom domain or env vars on the decal-punk Vercel project need to be moved first.
+Nothing in decal-punk is missing from decalpunk.
+
+A quick sanity check before deleting: gh repo view chongobongo/decal-punk shows the repo’s description and details so you can confirm it’s the right one.
+
+what are the exact steps in the command line to migrate to the real supabase?
+Listing the production migration steps in order
+
+Run these from your project folder. This assumes .env holds the production DATABASE_URL (direct connection, port 5432) and you’ve set PROD_PROJECT_REF in drizzle.config.ts.
+
+1. Make sure your code is in a clean state
+
+git status
+
+2. Generate the migration from your schema
+
+npm run db:generate
+
+Open the new .sql file in db/migrations and read it. Look for DROP TABLE, DROP COLUMN, or column type changes, since those can lose data in production.
+
+3. Apply it to your local Docker database and test
+
+npm run db:migrate
+
+The output should say drizzle target: LOCAL -> localhost. Run your app and check that everything works.
+
+4. Back up production
+Either use the Supabase dashboard (Database → Backups), or from the command line:
+
+pg_dump "YOUR_PROD_DATABASE_URL" -Fc -f prod-backup.dump
+
+Don’t commit that dump file.
+
+5. Run the production migration
+Update the script first if you haven’t:
+json
+
+"db:migrate:prod": "cross-env DB_TARGET=prod CONFIRM_PROD=yes drizzle-kit migrate"
+
+Then:
+
+npm run db:migrate:prod
+
+Check that the output says drizzle target: PROD -> db.YOUR-REF.supabase.co (or your pooler host). If the host looks wrong, the guards should stop it, but verify anyway.
+
+6. Verify
+In the Supabase dashboard, open the production project → Table Editor and confirm the new tables or columns exist. Drizzle also records applied migrations in a drizzle.__drizzle_migrations table.
+
+7. Commit the migration files and push
+
+git add db/migrations
+git commit -m "Add database migration"
+git push
+
+Push to a branch first if you want a Vercel preview, as covered earlier.
+
+8. Make sure Vercel’s production env vars point at the real database
+Settings → Environment Variables, then redeploy if you changed anything.
+
+If something goes wrong
+
+    “relation already exists”: production already has tables that Drizzle doesn’t know it created. Don’t force it. Tell me the exact error and we’ll work out whether to baseline the migration history.
+    Connection timeout or prepared statement errors: you’re likely on the 6543 pooler URL. Switch .env to the direct or session pooler URL.
+    A migration partly applied: restore from the backup in step 4 rather than hand-editing production.

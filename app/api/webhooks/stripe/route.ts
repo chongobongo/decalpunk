@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import type Stripe from "stripe";
 
-export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const body = await req.text(); // raw body is required for signature verification
