@@ -12,6 +12,6 @@ export function getJobOrderListIdTag(id: string) {
 }
 
 export function revalidateJobOrderListCache(id: string) {
-    revalidateTag(getJobOrderListTag())
-    revalidateTag(getJobOrderListIdTag(id))
+    revalidateTag(getJobOrderListTag(), "max")
+    revalidateTag(getJobOrderListIdTag(id), "max")
 }
