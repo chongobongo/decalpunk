@@ -33,7 +33,7 @@ export const stickerProductIndex = [
     },
     {
         id: "5",
-        link: "singles-on-sheet",
+        link: "single-sheets",
         header: "Singles on Sheet",
         description: "Multiple copys"
     },
@@ -57,7 +57,7 @@ export const stickerProductIndex = [
     },
     {
         id: "9",
-        link: "dtf-heat-transfers",
+        link: "dtf-heat-transfer",
         header: "DTF Heat Transfers",
         description: "Vibrant textile prints"
     },
@@ -87,7 +87,7 @@ export const stickerProductIndex = [
     },
     {
         id: "14",
-        link: "vinyl-transfers",
+        link: "vinyl-transfer",
         header: "Vinyl Tranfers",
         description: "The branding booster"
     }

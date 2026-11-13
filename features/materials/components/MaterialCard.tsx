@@ -25,7 +25,7 @@ export const MaterialCardIndex = ({
     return (
         <section>
                 <Link href={`/materials/${material.url}`}>
-                    <div id="card-container" className="h-44 w-44 p-2 grid grid-cols-1 text-center rounded-lg shadow-lg bg-white">
+                    <div id="card-container" className=" h-44 w-44 p-2 grid grid-cols-1 text-center rounded-lg shadow-lg border-4 boarder-slate-900 bg-slate-50">
                         <div id="image" className="mr-auto ml-auto">
                             <Image
                                 src={material.image}

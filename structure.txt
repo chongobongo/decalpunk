@@ -1,0 +1,451 @@
+.
+├── .env
+├── .env.development.local
+├── .gitignore
+├── Docs.txt
+├── README.md
+├── app
+│   ├── (auth)
+│   │   ├── sign-in
+│   │   │   └── [[...sign-in]]
+│   │   │       └── page.tsx
+│   │   └── sign-up
+│   │       └── [[...sign-up]]
+│   │           └── page.tsx
+│   ├── (protected)
+│   │   ├── admin
+│   │   │   ├── job-orders
+│   │   │   │   ├── @forms
+│   │   │   │   │   ├── (index)
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   ├── add-job
+│   │   │   │   │   │   └── [id]
+│   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   ├── attributes
+│   │   │   │   │   │   └── [id]
+│   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   ├── close
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   ├── default.tsx
+│   │   │   │   │   ├── job-edit
+│   │   │   │   │   │   └── [id]
+│   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   ├── new-order
+│   │   │   │   │   │   ├── custom-sticker
+│   │   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   │   └── test
+│   │   │   │   │   └── processing
+│   │   │   │   │       └── page.tsx
+│   │   │   │   ├── @orders
+│   │   │   │   │   ├── (index)
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   ├── default.tsx
+│   │   │   │   │   └── template.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── materials
+│   │   │   │   ├── @form
+│   │   │   │   │   ├── (index)
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   ├── catagories
+│   │   │   │   │   │   ├── adback-vinyl
+│   │   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   │   ├── all
+│   │   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   │   └── glow
+│   │   │   │   │   └── details
+│   │   │   │   │       ├── adback
+│   │   │   │   │       │   └── page.tsx
+│   │   │   │   │       └── glow
+│   │   │   │   ├── @list
+│   │   │   │   │   ├── (index)
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   └── default.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   ├── (public)
+│   │   ├── labels
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── materials
+│   │   │   ├── (details)
+│   │   │   │   ├── aluminum
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── glitter
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── glow
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── high-tack
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── holographic
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── low-tack
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── mirror
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── paper
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── pixie
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── prismatic
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── reflective
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── transparent
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── vinyl
+│   │   │   │       └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   ├── stickers
+│   │   │   ├── page.tsx
+│   │   │   └── sticker-order
+│   │   │       ├── @form
+│   │   │       │   ├── custom-sticker-packs
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── custom-stickers
+│   │   │       │   │   ├── page copy.tsx
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── default.tsx
+│   │   │       │   ├── die-cut
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── dtf-heat-transfer
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── epoxy-dome
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── floor
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── front-adhesive
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── hang-tag
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── heavy-duty
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── kiss-cut
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── removeable
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── single-sheets
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── sticker-packs
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── sticker-sheets
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── transfer-stickers
+│   │   │       │   │   └── page.tsx
+│   │   │       │   ├── vinyl-transfer
+│   │   │       │   │   └── page.tsx
+│   │   │       │   └── wall
+│   │   │       │       └── page.tsx
+│   │   │       ├── @list
+│   │   │       │   ├── default.tsx
+│   │   │       │   └── page.tsx
+│   │   │       ├── default.tsx
+│   │   │       ├── layout.tsx
+│   │   │       └── page.tsx
+│   │   └── tour
+│   │       ├── layout.tsx
+│   │       └── page.tsx
+│   ├── api
+│   │   ├── checkout
+│   │   │   └── route.ts
+│   │   ├── clerk
+│   │   │   └── syncUsers
+│   │   │       └── route.ts
+│   │   ├── test-db
+│   │   │   └── route.ts
+│   │   └── webhooks
+│   │       ├── clerk
+│   │       │   └── route.ts
+│   │       └── stripe
+│   │           └── route.ts
+│   ├── cancel
+│   │   └── page.tsx
+│   ├── cart
+│   │   └── page.tsx
+│   ├── data
+│   │   ├── custom-sticker-data copy.ts
+│   │   ├── custom-sticker-data.ts
+│   │   ├── home-page.ts
+│   │   ├── index.ts
+│   │   ├── material-data.ts
+│   │   ├── nav-data.ts
+│   │   └── sticker-data.ts
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── globals.d.ts
+│   ├── images
+│   │   ├── custom-sticker
+│   │   │   ├── material_aluminum.png
+│   │   │   ├── material_glitter.png
+│   │   │   ├── material_glow.png
+│   │   │   ├── material_holographic.png
+│   │   │   ├── material_mirror.png
+│   │   │   ├── material_paper.png
+│   │   │   ├── material_pixie.png
+│   │   │   ├── material_prismatic.png
+│   │   │   ├── material_reflective.png
+│   │   │   ├── material_transparent.png
+│   │   │   └── material_vinyl.png
+│   │   ├── icons
+│   │   │   ├── decal-icon-buzz-bass.png
+│   │   │   ├── decal-icon-cat.png
+│   │   │   ├── decal-icon-crash-drummer.png
+│   │   │   ├── decal-icon-razor-guitar.png
+│   │   │   ├── decal-logo-burst.png
+│   │   │   ├── decal-logo-ransom.png
+│   │   │   └── decal-logo-record.png
+│   │   └── material
+│   │       ├── material_aluminum.webp
+│   │       ├── material_glitter.png
+│   │       ├── material_glow.webp
+│   │       ├── material_holographic.webp
+│   │       ├── material_mirror.webp
+│   │       ├── material_paper.webp
+│   │       ├── material_pixie.webp
+│   │       ├── material_prismatic.png
+│   │       ├── material_reflective.webp
+│   │       ├── material_transparent.png
+│   │       └── material_vinyl.png
+│   ├── layout.tsx
+│   ├── main.module.css
+│   ├── permissions
+│   │   └── general.ts
+│   └── success
+│       └── page.tsx
+├── components
+│   ├── ActionButton.tsx
+│   ├── Navbar.tsx
+│   ├── NavbarAdmin.tsx
+│   ├── NavbarMember.tsx
+│   ├── NavbarPublic.tsx
+│   ├── PageHeader.tsx
+│   ├── Scrapple.tsx
+│   ├── icons
+│   └── ui
+│       ├── alert-dialog.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── checkbox.tsx
+│       ├── checkout.tsx
+│       ├── dropdownMenu.tsx
+│       ├── form.tsx
+│       ├── label.tsx
+│       ├── select.tsx
+│       ├── table.tsx
+│       ├── toast.tsx
+│       └── toaster.tsx
+├── db
+│   ├── index.ts
+│   ├── migrations
+│   │   ├── 0000_abandoned_joystick.sql
+│   │   ├── 0001_bored_maria_hill.sql
+│   │   ├── 0002_powerful_hex.sql
+│   │   ├── 0003_lean_penance.sql
+│   │   ├── 0004_windy_kat_farrell.sql
+│   │   ├── 0005_broad_romulus.sql
+│   │   ├── 0006_first_toad_men.sql
+│   │   └── meta
+│   │       ├── 0000_snapshot.json
+│   │       ├── 0001_snapshot.json
+│   │       ├── 0002_snapshot.json
+│   │       ├── 0003_snapshot.json
+│   │       ├── 0004_snapshot.json
+│   │       ├── 0005_snapshot.json
+│   │       ├── 0006_snapshot.json
+│   │       └── _journal.json
+│   ├── schemaDB.ts
+│   ├── schemaHelpers.ts
+│   ├── seed
+│   │   ├── adback.csv
+│   │   └── glow.csv
+│   └── tables
+│       ├── enums
+│       │   └── enums.ts
+│       ├── job-orders
+│       │   ├── job-order-list-table.ts
+│       │   ├── job-orders-table.ts
+│       │   └── product-orders
+│       │       └── custom-stickers.ts
+│       ├── materials
+│       │   ├── adback-materials-table.ts
+│       │   └── glow-material-table.ts
+│       ├── stickers-custom-table.ts
+│       └── user-table.ts
+├── drizzle.config.ts
+├── eslint.config.mjs
+├── features
+│   ├── admin
+│   │   ├── job-orders
+│   │   │   ├── add-job
+│   │   │   ├── add-order
+│   │   │   │   ├── actions
+│   │   │   │   │   └── custom-sticker-add-actions.ts
+│   │   │   │   ├── cache
+│   │   │   │   ├── components
+│   │   │   │   │   └── CustomStickerAddForm.tsx
+│   │   │   │   ├── db
+│   │   │   │   │   └── custom-sticker-item-add-db.ts
+│   │   │   │   ├── options
+│   │   │   │   │   └── customStickerOptions.ts
+│   │   │   │   └── schema
+│   │   │   │       └── customStickerSchemaAdd.ts
+│   │   │   ├── edit-job
+│   │   │   │   ├── actions
+│   │   │   │   │   ├── custom-sticker-delete-actions.ts
+│   │   │   │   │   └── custom-sticker-edit-actions.ts
+│   │   │   │   ├── components
+│   │   │   │   │   ├── CustomStickerEditForm.tsx
+│   │   │   │   │   └── JobOrderIndex.tsx
+│   │   │   │   ├── db
+│   │   │   │   │   ├── custom-sticker-edit-db.ts
+│   │   │   │   │   ├── custom-sticker-item-update-db.ts
+│   │   │   │   │   └── custom-sticker0update.db.ts
+│   │   │   │   └── schema
+│   │   │   │       └── customStickerSchemaEdit.ts
+│   │   │   ├── job-forms
+│   │   │   │   └── components
+│   │   │   │       └── JobFormButtons.tsx
+│   │   │   ├── new-order
+│   │   │   │   ├── custom-sticker
+│   │   │   │   │   ├── actions
+│   │   │   │   │   │   └── custom-sticker-actions.ts
+│   │   │   │   │   ├── components
+│   │   │   │   │   │   ├── CustomStickerForm.tsx
+│   │   │   │   │   │   ├── Dropzone.tsx
+│   │   │   │   │   │   ├── MaterialCard.tsx
+│   │   │   │   │   │   └── MaterialCardSlider.tsx
+│   │   │   │   │   ├── db
+│   │   │   │   │   │   ├── cache
+│   │   │   │   │   │   │   └── job-order-list-cache.ts
+│   │   │   │   │   │   └── custom-sticker-db.ts
+│   │   │   │   │   └── schema
+│   │   │   │   │       └── customStickerSchema.ts
+│   │   │   │   └── test
+│   │   │   └── orders-list
+│   │   │       ├── components
+│   │   │       │   ├── JobOrdersListTable.tsx
+│   │   │       │   └── Orders.tsx
+│   │   │       └── db
+│   │   │           └── cache
+│   │   │               └── job-order-list-cache.ts
+│   │   ├── materials
+│   │   │   ├── components
+│   │   │   │   └── MaterialButtonList.tsx
+│   │   │   └── schema
+│   │   └── test
+│   ├── cart
+│   │   ├── CartLink.tsx
+│   │   └── cartProvider.tsx
+│   ├── data
+│   │   └── customStickerData.ts
+│   ├── home
+│   │   ├── componenets
+│   │   │   ├── BrandTestimonials.tsx
+│   │   │   ├── DividingBox.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── GalleryExamples.tsx
+│   │   │   ├── MaterialCard.tsx
+│   │   │   ├── ProfileCard.tsx
+│   │   │   ├── Splash.tsx
+│   │   │   └── Templates.tsx
+│   │   └── images
+│   │       ├── Splash-Image.jpg
+│   │       ├── coachella-logo.png
+│   │       ├── fox-logo.jpg
+│   │       ├── gallery-gangup-2.webp
+│   │       ├── gallery-gangup.webp
+│   │       ├── material-glitter.webp
+│   │       ├── material-holographic.webp
+│   │       ├── material-mirror.webp
+│   │       ├── material-vinyl.webp
+│   │       ├── porsche-logo.jpg
+│   │       ├── profile-hologram.jpg
+│   │       ├── profile-sticker-roll.jpg
+│   │       ├── profile-stickerpack.jpg
+│   │       ├── square-la.jpeg
+│   │       └── template-gangup.webp
+│   ├── materials
+│   │   ├── components
+│   │   │   ├── MaterialCard.tsx
+│   │   │   └── MaterialSelectButton.tsx
+│   │   └── images
+│   │       ├── material-glitter.webp
+│   │       ├── material-holographic.webp
+│   │       ├── material-mirror.webp
+│   │       └── material-vinyl.webp
+│   ├── navbar
+│   │   └── components
+│   │       └── HamburgerMenu.tsx
+│   ├── products
+│   │   ├── custom-stickers
+│   │   │   ├── actions
+│   │   │   │   └── custom-sticker-actions.ts
+│   │   │   ├── components
+│   │   │   │   ├── CustomStickerForm.tsx
+│   │   │   │   ├── Dropzone.tsx
+│   │   │   │   ├── MaterialCard.tsx
+│   │   │   │   ├── MaterialCardSlider.tsx
+│   │   │   │   └── SplashSlider.tsx
+│   │   │   ├── db
+│   │   │   │   ├── cache
+│   │   │   │   └── custom-sticker-db.ts
+│   │   │   ├── permissions
+│   │   │   │   └── custom-sticker-permissions.ts
+│   │   │   └── schema
+│   │   │       └── customStickerSchema.ts
+│   │   └── die-cut
+│   ├── stickers
+│   │   ├── actions
+│   │   └── components
+│   │       ├── Header.tsx
+│   │       ├── StickerCard.tsx
+│   │       └── StickerOrderButtonList.tsx
+│   └── users
+│       └── db
+│           ├── cache.ts
+│           └── users.ts
+├── hooks
+│   └── use-toast.ts
+├── lib
+│   ├── dataCache.ts
+│   ├── getImageMetadata.ts
+│   ├── stripe.ts
+│   ├── supabase-client.ts
+│   ├── supabase-server.ts
+│   └── utils.ts
+├── middleware.ts
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── scrapple.tsx
+├── services
+│   └── clerk.ts
+├── structure.txt
+├── supabase
+│   ├── .branches
+│   │   └── _current_branch
+│   ├── .gitignore
+│   ├── .temp
+│   │   ├── cli-latest
+│   │   └── start-secrets
+│   │       └── supabase_edge_runtime_decalpunk
+│   │           └── env
+│   │               └── docker.env
+│   ├── config.toml
+│   └── snippets
+│       └── Untitled query 952.sql
+├── tsconfig.json
+└── tsconfig.tsbuildinfo
+
+173 directories, 275 files

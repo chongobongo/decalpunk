@@ -1,8 +1,7 @@
-// sticker-cutom-table
 // db/tables/stickers-custom-table.ts
-
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { id, created_at, updated_at } from "../schemaHelpers";
+import type { ImageMetadata } from "@/lib/getImageMetadata";
 
 export const StickersCustomTable = pgTable("stickers_custom", {
     id,
@@ -15,6 +14,7 @@ export const StickersCustomTable = pgTable("stickers_custom", {
     size: text("size"),
     quantity: text("quantity"),
     img: text("img"),
+    image_metadata: jsonb("image_metadata").$type<ImageMetadata>(),
     created_at,
     updated_at,
 })

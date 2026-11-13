@@ -1,16 +1,5 @@
-
-SUPABASE:
-    npm i @supabase/supabase-js
-
-Dynamic IO / Use Cache:
-    const nextConfig = {
-    experimental: {
-        dynamicIO: true,  // enables "use cache" + cacheTag/cacheLife
-    },
-    };
-
-    export default nextConfig;
-    *** dynamicIO is the broader flag that enables the whole suite ("use cache", cacheTag, cacheLife, etc.), while useCache is the more targeted one. Since you're already using cacheTag, dynamicIO is likely the right choice.
+CROSS SCRIPTS FOR ENV LOCAL:
+    npm i -D cross-env
 
 ZOD VALIDATION: https://zod.dev/
     npm: https://www.npmjs.com/package/zod
@@ -38,8 +27,14 @@ REACT HOOK-FORM: https://react-hook-form.com/get-started
     npm install react-hook-form
     npm install @hookform/resolvers
 
+REACT HOOKS USE TOAST: https://www.npmjs.com/package/react-hook-toast
+    npm i react-hook-toast
+
 RADIX UI:
     npm i radix-ui
+
+Framer Motion: https://www.framer.com/motion/introduction/
+    npm install framer-motion
 
 DRIZZLE: https://orm.drizzle.team/docs/get-started-postgresql
     npm i drizzle-orm pg
@@ -108,3 +103,20 @@ UPLOADER
         React Dropzone: npm i react-dropzone
         Upload Thing:   npm install uploadthing @uploadthing/react
                         npm i @uploadthing/react
+
+STRIPE
+    npm install stripe @stripe/stripe-js
+
+    Install to test locally:
+        brew install stripe/stripe-cli/stripe   # or see Stripe CLI docs for your OS
+        stripe login
+        stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+
+
+*** Command Lines:
+    To print the file tree: tree -a -I "node_modules|.next|.git" app
+
+    Stop and run serve:
+        rm -rf .next
+        npm run dev

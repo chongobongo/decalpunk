@@ -1,0 +1,1 @@
+<hr className="mt-6 border-t-4 border-slate-900" /> {/* Dividing line */}

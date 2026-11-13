@@ -81,8 +81,7 @@ export const Footer = () => {
       <div id="consent" className="flex flex-row">
         <Checkbox className="mr-2 bg-white" />
         <p className="text-sm text-white">
-          I consent that Decal-Punk Inc may process my personal data for the purpose of direct marketing. 
-          I can unsubscribe anytime via link in email and read details in Decal-Punk&apos;s Privacy Policy.
+          This check box doesn't do anything. We don't do direct marketing. Frankly, we're just to lazy. D.P.
         </p>
       </div>
       <div id="buttons" className="flex flex-col sm:flex-row mt-6 gap-4">
