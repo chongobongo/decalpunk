@@ -32,5 +32,5 @@ CREATE TABLE "job_order_list" (
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "stickers_custom" ADD COLUMN "image_metadata" jsonb;--> statement-breakpoint
+ALTER TABLE "stickers_custom" ADD COLUMN IF NOT EXISTS "image_metadata" jsonb;--> statement-breakpoint
 ALTER TABLE "job_orders" ADD CONSTRAINT "job_orders_list_id_job_order_list_id_fk" FOREIGN KEY ("list_id") REFERENCES "public"."job_order_list"("id") ON DELETE no action ON UPDATE no action;
