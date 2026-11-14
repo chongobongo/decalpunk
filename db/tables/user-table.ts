@@ -1,3 +1,5 @@
+// User Table
+
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core"
 import { created_at, id, updated_at } from "../schemaHelpers";
 import { userRoleEnum } from "../schemaDB";

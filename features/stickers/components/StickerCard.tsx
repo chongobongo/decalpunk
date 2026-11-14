@@ -22,8 +22,8 @@ export const StickerCard = ({
 
     return (
         <section>
-            <Link href={`/stickers/${sticker.link}`}>
-                    <div id="card-container" className="h-44 w-44 p-2 grid grid-cols-1 text-center rounded-lg shadow-lg border-4 border-black bg-white">
+            <Link href={`/stickers/sticker-order/${sticker.link}`}>
+                    <div id="card-container" className="mt-8 h-44 w-44 p-2 grid grid-cols-1 text-center rounded-lg shadow-lg border-4 border-black bg-white">
                         <div id="headline" className={`text-xl ${protestFont.className}`}>
                             {sticker.header}
                         </div>

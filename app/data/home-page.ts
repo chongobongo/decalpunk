@@ -13,25 +13,29 @@ export const materialHomePageData = [
       id: "0",
       image: materialVinyl.src,
       header: "vinyl",
-      description: "Best Seller"
+      description: "Best Seller",
+      url: "/materials/vinyl"
     },
     {
       id: "1",
       image: materialHologram.src,
       header: "Holographic",
-      description: "Eye catching!"
+      description: "Eye catching!",
+      url: "/materials/holographic"
     },
       {
       id: "2",
       image: materialMirror.src,
       header: "Mirror",
-      description: "So shiny"
+      description: "So shiny",
+      url: "/materials/mirror"
     },
       {
       id: "3",
       image: materialGlitter.src,
       header: "Glitter",
-      description: "Sparkling spots"
+      description: "Sparkling spots",
+      url: "/materials/glitter"
     }
 ]
 

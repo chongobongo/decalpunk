@@ -1,0 +1,1 @@
+ALTER TABLE "job_orders_custom_sticker" ADD COLUMN "job_title" text NOT NULL;

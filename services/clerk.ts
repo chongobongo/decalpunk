@@ -1,3 +1,5 @@
+// Clerk
+
 import { db } from "@/db/index"
 import { UserRole, UsersTable } from "@/db/schemaDB"
 import { getUserIdTag } from "@/features/users/db/cache"
@@ -8,6 +10,8 @@ import { headers } from "next/headers"
 
 const client = await clerkClient()
 
+const roles = ["user", "member", "admin"] as const
+
 export async function getCurrentUser({ allData = false } = {}) {
   const { userId, sessionClaims, redirectToSignIn } = await auth()
 
@@ -16,10 +20,15 @@ export async function getCurrentUser({ allData = false } = {}) {
       ? await getUser(sessionClaims.dbId as string)
       : undefined
 
+  const candidate = dbUser?.role ?? sessionClaims?.appRole
+  const role: UserRole = roles.includes(candidate as any)
+    ? (candidate as UserRole)
+    : "user"
+
   return {
     clerkUserId: userId,
     userId: sessionClaims?.dbId as string | undefined,
-    role: (dbUser?.role ?? sessionClaims?.role) as UserRole ?? "user", // 👈 prefer DB role
+    role,
     user: dbUser,
     redirectToSignIn,
   }
@@ -42,7 +51,14 @@ async function getUser(id: string) {
   "use cache"
   cacheTag(await getUserIdTag(id))
   console.log("Called")
-  return db.query.UsersTable.findFirst({
-    where: eq(UsersTable.id, id),
-  })
+  try {
+    return await db.query.UsersTable.findFirst({
+      where: eq(UsersTable.id, id),
+    })
+  } catch (e) {
+    const cause = (e as any).cause
+    throw new Error(
+      `getUser failed: ${cause?.code ?? ""} ${cause?.message ?? String(e)}`
+    )
+  }
 }

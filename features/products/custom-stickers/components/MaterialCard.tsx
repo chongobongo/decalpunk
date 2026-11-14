@@ -24,15 +24,14 @@ export function MaterialCardCustomSticker({
         <div
             id="card-container"
             onClick={onClick}
-            className={`h-44 w-44 p-2 flex flex-col items-center justify-center text-center rounded-lg shadow-lg bg-white cursor-pointer border-2 transition-colors
-                ${selected ? "border-amber-500" : "border-transparent"}`}
-        >
+className={`h-[140px] w-40 p-1 flex flex-col items-center justify-center text-center rounded-lg shadow-lg bg-white cursor-pointer border-2 transition-colors
+    ${selected ? "border-amber-500" : "border-transparent"}`}        >
             <div id="image" className="flex items-center justify-center">
                 <Image
                     src={material.image}
-                    width={100}
-                    height={100}
-                    alt='material_image'
+                    width={120}
+                    height={120}
+                    alt="material_image"
                 />
             </div>
             <div id="headline" className={`text-xl ${protestFont.className}`}>

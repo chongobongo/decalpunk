@@ -16,6 +16,8 @@ import HamburgerIcon from "@/features/navbar/components/HamburgerMenu"
 import { getCurrentUser } from "@/services/clerk"
 import { canAccessAdminPages } from "../permissions/general"
 import { auth } from "@clerk/nextjs/server"
+import DecalLogoRansom from "@/app/images/icons/decal-logo-ransom.png"
+import Image from "next/image"
 
 const protestFont = Protest_Strike({
     subsets: ["latin"],
@@ -28,16 +30,23 @@ async function ProtectedNavbar() {
     const { userId } = await auth()
 
     return (
-        <header className="h-12 shadow z-10 bg-black">
-            <nav className="mx-10 flex flex-row items-center h-full">
+<header className="relative z-10 h-12 bg-black shadow">
+  <nav className="mx-10 flex h-full flex-row items-center">
 
-                {/* Logo */}
-                <Link className="mr-10 text-white font-bold tracking-wide" href="/">
-                    Decal Punk
-                </Link>
+    {/* Logo */}
+    <Link className="self-start font-bold tracking-wide text-white" href="/">
+      <div id="logo" className="">
+        <Image
+          src={DecalLogoRansom}
+          width={90}
+          height={90}
+          alt="Decal Punk Logo"
+        />
+      </div>
+    </Link>
 
                 {/* Desktop nav links */}
-                <ul className={`hidden lg:flex flex-row gap-4 text-amber-300 ${protestFont.className}`}>
+                <ul className={`hidden lg:flex flex-row gap-4 ml-20 text-amber-300 ${protestFont.className}`}>
                     <li><Link href="/stickers" className="hover:text-white transition-colors">Stickers</Link></li>
                     <li><Link href="/labels" className="hover:text-white transition-colors">Labels</Link></li>
                     <li><Link href="/materials" className="hover:text-white transition-colors">Materials</Link></li>
@@ -86,6 +95,14 @@ async function ProtectedNavbar() {
 
                 {/* Auth area */}
                 <div className="hidden lg:flex justify-end items-center gap-4 ml-auto h-full">
+                    <Link
+                        className="text-white hover:bg-accent/10 flex items-center px-2"
+                        href="/admin/job-orders">Job Orders
+                    </Link>
+                    <Link
+                        className="text-white hover:bg-accent/10 flex items-center px-2"
+                        href="/admin/materials">Materials
+                    </Link>
                     {!userId ? (
                         <div className="flex gap-4">
                             <SignInButton />
