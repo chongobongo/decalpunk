@@ -18,9 +18,8 @@ export const BrandTestimonials = ({
 }) => {
 
     return (
-        <section className="">
             <Link href="/">
-                <div id="card-container"  className="h-60 w-60 grid grid-cols-1 text-center rounded-lg shadow-lg boarder border-4 boarder-slate-900 shadow-lg bg-slate-50">
+                <div id="card-container"  className="h-44 w-44 grid grid-cols-1 text-center rounded-lg shadow-lg boarder border-4 boarder-slate-900 shadow-lg bg-slate-50">
                     <div id="image" className="mr-auto ml-auto p-2">
                     <div id="image">
                         <Image
@@ -41,6 +40,5 @@ export const BrandTestimonials = ({
                     </div>
                 </div>
             </Link>
-        </section>
     )
 }

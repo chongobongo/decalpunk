@@ -36,8 +36,6 @@ export const DividingBox = () => {
     Stay True!
   </h3>
 
-  <div id="image-right" className="shrink-0">
-<div id="image-right" className="shrink-0">
 <div id="image-right" className="shrink-0">
   <Image
     src={DecalLogoRecord}
@@ -48,8 +46,6 @@ export const DividingBox = () => {
     alt="Decal Punk Logo"
   />
 </div>
-</div>
-  </div>
 </section>
   )
 }
