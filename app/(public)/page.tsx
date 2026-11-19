@@ -60,7 +60,7 @@ export default async function Home() {
             </div>
 
             <DividingBox />
-            
+
             <div id="testimonials" className="mt-6 mr-auto ml-auto text-center">
               <label className={`text-4xl ${protestFont.className}`}>Brand Testimonials</label>
               <div className="p-6 gap-6 grid grid-cols-2 md:grid-cols-4">
@@ -100,6 +100,5 @@ export default async function Home() {
           </div>
         )}
       </main>
-
   );
 }

@@ -1,3 +1,6 @@
+// Material Card
+// features\home\componenets\MaterialCard.tsx
+
 import Image from "next/image"
 import Link from "next/link"
 import { Protest_Strike } from "next/font/google"

@@ -48,54 +48,74 @@ async function Navbar() {
 const config: NavConfig = navData[user.role as UserRole] ?? navData.user
 
   return (
-<div id="header-box" className="sticky top-0 z-50 flex h-20 items-center shadow-[0_6px_12px_rgba(0,0,0,0.5)] bg-slate-900 inset_0_0_20px_rgba(251,191,36,0.4)]">
-  <header className={`z-10 h-10 w-full shrink-0 bg-amber-300`}>
-    <nav className="flex h-full items-center px-4 sm:px-10">
+<div
+  id="header-box"
+  className="sticky top-0 z-50 flex h-9 items-center bg-slate-900 shadow-[0_6px_12px_rgba(0,0,0,0.5)] sm:h-16 lg:h-20"
+>
+  <header
+    id="amber-box"
+    className="relative z-10 h-5 w-full shrink-0 self-center bg-amber-300 sm:h-9 lg:h-10"
+  >
+    <nav className="mx-auto grid h-full w-full max-w-screen-2xl grid-cols-[auto_1fr_auto] items-center gap-1.5 px-2 sm:gap-4 sm:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-10">
       {/* Role badge */}
-      <Link href="./admin">
-            <span className={`hidden lg:inline-block text-xl text-slate-900 mr-6 ${protestFont.className}`}>
-        {config.roleLabel}
-      </span></Link>
+      <Link href="/admin" className="flex h-full min-w-0 items-center justify-self-start">
+        <span
+          className={`block max-w-14 truncate text-[10px] leading-none text-slate-900 sm:max-w-32 sm:text-base lg:max-w-none lg:text-xl ${protestFont.className}`}
+        >
+          {config.roleLabel}
+        </span>
+      </Link>
 
-      {/* Desktop nav links */}
-      <ul className={`hidden lg:flex flex-row mr-auto ml-auto items-center gap-4 text-slate-900 ${protestFont.className}`}>
-        <Link href="./stickers">
-          <li className="text-3xl">Stickers</li></Link>
-        {/* Logo */}
-<Link className="flex items-center tracking-wide" href="/">
-  <Image
-    src={DecalLogoBurst}
-    alt="Decal Punk logo"
-    width={200}
-    height={200}
-    className="drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]"
-    priority
-  />
-</Link>
-        <Link href="./labels">
-          <li className="text-3xl">Labels</li>
-        </Link>
+      {/* Stickers / Logo / Labels */}
+      <ul
+        className={`flex h-full min-w-0 flex-row items-center justify-center gap-1.5 text-slate-900 sm:gap-6 lg:gap-10 ${protestFont.className}`}
+      >
+        <li className="flex items-center">
+          <Link href="/stickers" className="text-sm leading-none sm:text-xl lg:text-3xl">
+            Stickers
+          </Link>
+        </li>
+
+<li className="relative h-full w-24 shrink-0 sm:w-32 lg:w-[200px]">
+  <Link
+    href="/"
+    className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-center"
+  >
+    <Image
+      id="logo"
+      src={DecalLogoBurst}
+      alt="Decal Punk logo"
+      width={200}
+      height={200}
+      sizes="(min-width: 1024px) 200px, (min-width: 640px) 128px, 96px"
+      className="h-auto w-full drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)] sm:drop-shadow-[0_4px_4px_rgba(0,0,0,0.55)] lg:drop-shadow-[0_8px_8px_rgba(0,0,0,0.6)]"
+      priority
+    />
+  </Link>
+</li>
+
+        <li className="flex items-center">
+          <Link href="/labels" className="text-sm leading-none sm:text-xl lg:text-3xl">
+            Labels
+          </Link>
+        </li>
       </ul>
 
-      {/* Hamburger (mobile only) */}
-      <div className="ml-auto flex items-center gap-4 lg:hidden">
-        <div className="flex h-7 min-w-7 items-center justify-center">
-          <CartLink />
-        </div>
-        <DropdownMenu>
-          {/* ...unchanged... */}
-        </DropdownMenu>
-      </div>
-
-      {/* Auth area: fixed-size slots so late-loading items don't shift the layout */}
-      <div className="hidden lg:flex justify-end items-center gap-4 ml-auto h-full">
-        <div className="flex h-7 min-w-7 items-center justify-center">
-          <CartLink />
-        </div>
-        <div className="h-7 w-7">
-          <UserButton />
-        </div>
-      </div>
+{/* Cart + profile */}
+<div id="cart-profile-container" className="flex h-full items-center justify-end gap-1.5 justify-self-end sm:gap-4">
+<div id="cart-icon" className="hidden h-7 min-w-7 items-center justify-center sm:flex">
+  <CartLink className="!text-black hover:!text-white" />
+</div>
+  <div id="profile" className="flex h-5 w-5 items-center justify-center sm:h-7 sm:w-7 lg:h-8 lg:w-8">
+    <UserButton
+      appearance={{
+        elements: {
+          userButtonAvatarBox: "!h-5 !w-5 sm:!h-7 sm:!w-7 lg:!h-8 lg:!w-8",
+        },
+      }}
+    />
+  </div>
+</div>
     </nav>
   </header>
 </div>

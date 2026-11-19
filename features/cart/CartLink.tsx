@@ -1,4 +1,5 @@
-// Crt Link
+// Cart Link - Component
+// features\cart\CartLink.tsx
 
 "use client"
 
