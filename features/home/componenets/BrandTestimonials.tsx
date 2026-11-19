@@ -1,3 +1,6 @@
+// Brand Testimonials - Home Page
+// features\home\componenets\BrandTestimonials.tsx
+
 import Image from "next/image"
 import Link from "next/link"
 
