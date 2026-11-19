@@ -31,7 +31,7 @@ export const DividingBox = () => {
 
   <h3
     id="header"
-    className={`${protestFont.className} min-w-0 flex-1 text-center text-6xl leading-tight text-slate-200 sm:text-6xl lg:text-8xl`}
+    className={`${protestFont.className} min-w-0 flex-1 text-center text-4xl leading-tight text-slate-200 sm:text-4xl lg:text-8xl`}
   >
     Stay True!
   </h3>
