@@ -31,20 +31,24 @@ export const DividingBox = () => {
 
   <h3
     id="header"
-    className={`${protestFont.className} min-w-0 flex-1 text-center text-2xl leading-tight text-slate-200 sm:text-4xl lg:text-6xl`}
+    className={`${protestFont.className} min-w-0 flex-1 text-center text-6xl leading-tight text-slate-200 sm:text-6xl lg:text-8xl`}
   >
     Stay True!
   </h3>
 
   <div id="image-right" className="shrink-0">
-    <Image
-      src={DecalLogoRecord}
-      width={150}
-      height={150}
-      sizes="(min-width: 1024px) 150px, (min-width: 640px) 84px, 48px"
-      className="h-auto w-12 sm:w-[84px] lg:w-[150px]"
-      alt="Decal Punk Logo"
-    />
+<div id="image-right" className="shrink-0">
+<div id="image-right" className="shrink-0">
+  <Image
+    src={DecalLogoRecord}
+    width={150}
+    height={150}
+    sizes="(min-width: 1024px) 150px, (min-width: 640px) 84px, 80px"
+    className="h-auto w-20 sm:w-[84px] lg:w-[150px]"
+    alt="Decal Punk Logo"
+  />
+</div>
+</div>
   </div>
 </section>
   )
