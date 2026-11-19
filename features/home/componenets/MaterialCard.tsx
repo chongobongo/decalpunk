@@ -24,7 +24,6 @@ export const MaterialCard = ({
 }) => {
 
     return (
-        <section>
                 <Link href={material.url}>
                     <div id="card-container" className="h-44 w-44 p-2 grid grid-cols-1 text-center rounded-lg border-4 boarder-slate-900 shadow-lg bg-slate-50">
                         <div id="image" className="mr-auto ml-auto">
@@ -42,6 +41,5 @@ export const MaterialCard = ({
                         </div>
                     </div>
                 </Link>
-        </section>
     )
 }

@@ -11,8 +11,6 @@ import { testimonialData } from "@/app/data"
 import { getCurrentUser } from "@/services/clerk"
 
 import { Splash } from "@/features/home/componenets/Splash";
-import { GalleryExample } from "@/features/home/componenets/GalleryExamples";
-import { TemplateBanner } from "@/features/home/componenets/Templates";
 import { MaterialCard } from "@/features/home/componenets/MaterialCard";
 import { DividingBox } from "@/features/home/componenets/DividingBox";
 import { BrandTestimonials } from "@/features/home/componenets/BrandTestimonials";
@@ -36,6 +34,7 @@ export default async function Home() {
                 paragraph="Make your own custom stickers and labels. Express delivery as fast as 2-4 business days. Get an instant proof and free shipping!"
                 button_text="Make a custom sticker"/>
 
+    {/* Materials Section */}
             <div id="materialSelection" className="mt-6 mr-auto ml-auto">
                 <div id="materialDescription">
                   <p className={`text-center text-4xl ${protestFont.className}`}>
@@ -60,7 +59,7 @@ export default async function Home() {
             </div>
 
             <DividingBox />
-
+         {/* Testimonials Section */}
             <div id="testimonials" className="mt-6 mr-auto ml-auto text-center">
               <label className={`text-4xl ${protestFont.className}`}>Brand Testimonials</label>
               <div className="p-6 gap-6 grid grid-cols-2 md:grid-cols-4">
