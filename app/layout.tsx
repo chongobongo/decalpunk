@@ -24,7 +24,7 @@ export default function RootLayout({
         publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
         dynamic>
     <html lang="en" className="[scrollbar-gutter:stable]">
-      <body className="flex min-h-dvh flex-col overflow-x-hidden">
+<body className="flex min-h-dvh flex-col overflow-x-clip">
         <CartProvider>{children}</CartProvider>
       </body>
     </html>
