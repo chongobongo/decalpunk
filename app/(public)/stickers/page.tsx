@@ -9,13 +9,13 @@ export default function StickersPage() {
 
     return (
 <main className="min-h-screen bg-slate-400">
-    <div id="seperator-bar" className="w-full h-10 bg-slate-400"></div>
-    <StickerHeader headline="Custom Stickers" />
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6 place-items-center bg-slate-400">
-        {stickerProductIndex.map((item) => (
-            <StickerCard key={item.id} sticker={item} />
-        ))}
-    </div>
+  <div id="seperator-bar" className="h-6 w-full bg-slate-400 sm:h-10"></div>
+  <StickerHeader headline="Custom Stickers" />
+  <div className="mx-auto grid w-full max-w-7xl grid-cols-2 place-items-center gap-3 bg-slate-400 p-3 sm:gap-6 sm:p-6 lg:grid-cols-3">
+    {stickerProductIndex.map((item) => (
+      <StickerCard key={item.id} sticker={item} />
+    ))}
+  </div>
 </main>
     )
 }
