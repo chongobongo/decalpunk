@@ -44,7 +44,7 @@ export async function Navbar_one() {
     id="amber-box"
     className="relative z-10 h-9 w-full shrink-0 self-center bg-amber-300 sm:h-9 lg:h-10"
   >
-    <nav className="mx-auto grid h-full w-full max-w-screen-2xl grid-cols-[auto_1fr_auto] items-center gap-1.5 px-2 sm:gap-4 sm:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-10">
+<nav className="mx-auto grid h-full w-full max-w-screen-2xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1.5 px-2 sm:gap-4 sm:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-10">
       {/* Role badge */}
       <Link href="/admin" className="flex h-full min-w-0 items-center justify-self-start">
         <span
@@ -66,7 +66,7 @@ export async function Navbar_one() {
         </li>
 
       {/* Decal Logo - Burst */}
-<li className="relative h-full w-32 shrink-0 lg:w-[200px]">
+<li className="relative h-full w-24 shrink-0 sm:w-32 lg:w-[200px]">
   <Link
     href="/"
     className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-center"
