@@ -1,44 +1,51 @@
-// Custom Sticker Form
+// Custom Sticker Form - Component
+// features\admin\job-orders\new-order\custom-sticker\components\CustomStickerForm.tsx
 
 "use client"
 
-import { useEffect, useState } from "react";
-import { getImageMetadata, type ImageMetadata } from "@/lib/getImageMetadata";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Protest_Strike } from "next/font/google"
+import { priceJob, type PriceBreak } from "@/lib/pricing"
 
 import { Form, FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { customStickerSchema } from "../schema/customStickerSchema";
 import { MaterialCardSlider } from "@/features/admin/job-orders/new-order/custom-sticker/components/MaterialCardSlider";
 import { Dropzone } from "../components/Dropzone"
+
+import { getImageMetadata, type ImageMetadata } from "@/lib/getImageMetadata";
+import { customStickerSchema } from "../schema/customStickerSchema";
 
 import { uploadCartImage } from "../actions/custom-sticker-actions"
 import { useCart } from "@/features/cart/cartProvider"
 
+import { Protest_Strike } from "next/font/google"
+const protestFont = Protest_Strike({
+    subsets: ["latin"],
+    weight: "400",
+})
+
 type Product = {
     id: string;
     product: string;
-    shapes: { id: string; shape: string }[];
+    setupFeeCents: number;
+    minOrderCents: number;
+    breaks: PriceBreak[];
+    shapes: { id: string; shape: string; wasteMultiplier: number; feeCents: number }[];
     materials: {
         id: string;
         material: string;
         img: string;
         price: number;
-        finishes: { id: string; finish: string }[];
+        ratePerSqFtCents: number;
+        finishes: { id: string; finish: string; adjPerSqFtCents: number }[];
     }[];
-    sizes: { id: string; size: string }[];
+    sizes: { id: string; size: string; widthIn: number; heightIn: number }[];
     quantities: { id: string; quantity: string }[];
 };
-
-const protestFont = Protest_Strike({
-    subsets: ["latin"],
-    weight: "400",
-})
 
 export function CustomStickerForm({
     products,
@@ -64,9 +71,45 @@ export function CustomStickerForm({
 
     const selectedProductId = form.watch("product")
     const selectedMaterialId = form.watch("material")
+    const shapeValue = form.watch("shape")
+    const finishValue = form.watch("finish")
+    const sizeValue = form.watch("size")
+    const quantityValue = form.watch("quantity")
 
     const selectedProduct = products.find((p) => p.id === selectedProductId) ?? null
     const selectedMaterial = selectedProduct?.materials.find((m) => m.id === selectedMaterialId) ?? null
+
+    // Live price preview. The server recomputes this at checkout; this number is display only.
+const quote = useMemo(() => {
+    if (!selectedProduct || !selectedMaterial) return null
+    const shape = selectedProduct.shapes.find((s) => s.shape === shapeValue)
+    const finish = selectedMaterial.finishes.find((f) => f.finish === finishValue)
+    const size = selectedProduct.sizes.find((s) => s.size === sizeValue)
+    const quantity = Number(quantityValue)
+
+    console.log("QUOTE DEBUG", {
+        shapeValue, shapeFound: shape,
+        finishValue, finishFound: finish,
+        sizeValue, sizeFound: size,
+        quantityValue, quantity,
+    })
+
+    if (!shape || !finish || !size || !quantity) return null
+    // ...the rest of the block stays the same
+
+        return priceJob({
+            ratePerSqFtCents: selectedMaterial.ratePerSqFtCents,
+            finishAdjPerSqFtCents: finish.adjPerSqFtCents,
+            widthIn: size.widthIn,
+            heightIn: size.heightIn,
+            wasteMultiplier: shape.wasteMultiplier,
+            shapeFeeCents: shape.feeCents,
+            quantity,
+            breaks: selectedProduct.breaks,
+            setupFeeCents: selectedProduct.setupFeeCents,
+            minOrderCents: selectedProduct.minOrderCents,
+        })
+    }, [selectedProduct, selectedMaterial, shapeValue, finishValue, sizeValue, quantityValue])
 
     const image = form.watch("image")
     const [imageMeta, setImageMeta] = useState<ImageMetadata | null>(null)
@@ -97,40 +140,46 @@ export function CustomStickerForm({
         form.resetField("finish")
     }, [form, selectedMaterialId])
 
-async function onSubmit(values: z.output<typeof customStickerSchema>) {
-    setStep("1. onSubmit started")
-    setSubmitError(null)
-    try {
-        const fd = new FormData()
-        fd.append("image", values.image)
+    async function onSubmit(values: z.output<typeof customStickerSchema>) {
+        setStep("1. onSubmit started")
+        setSubmitError(null)
 
-        setStep("2. uploading image")
-        const upload = await uploadCartImage(fd)
-        if (upload.error) {
-            setStep("3. upload returned an error")
-            setSubmitError(upload.message)
+        if (!quote) {
+            setSubmitError("Choose a shape, material, finish, size and quantity to get a price.")
             return
         }
 
-        addItem({
-            product: selectedProduct?.product ?? values.product,
-            shape: values.shape,
-            material: selectedMaterial?.material ?? values.material,
-            finish: values.finish,
-            size: values.size,
-            quantity: values.quantity,
-            unitPrice: selectedMaterial?.price ?? 0,
-            img: upload.url,
-            imageMetadata: imageMeta,
-        })
+        try {
+            const fd = new FormData()
+            fd.append("image", values.image)
 
-        setStep("3. added to cart, redirecting")
-        router.push("/cart")
-    } catch (e) {
-        setStep("X. threw an error: " + String(e))
-        setSubmitError(e instanceof Error ? e.message : "Something went wrong.")
+            setStep("2. uploading image")
+            const upload = await uploadCartImage(fd)
+            if (upload.error) {
+                setStep("3. upload returned an error")
+                setSubmitError(upload.message)
+                return
+            }
+
+            addItem({
+                product: selectedProduct?.product ?? values.product,
+                shape: values.shape,
+                material: selectedMaterial?.material ?? values.material,
+                finish: values.finish,
+                size: values.size,
+                quantity: values.quantity,
+                unitPrice: quote.eachCents / 100,
+                img: upload.url,
+                imageMetadata: imageMeta,
+            })
+
+            setStep("3. added to cart, redirecting")
+            router.push("/cart")
+        } catch (e) {
+            setStep("X. threw an error: " + String(e))
+            setSubmitError(e instanceof Error ? e.message : "Something went wrong.")
+        }
     }
-}
 
     return (
         <main className="h-full bg-slate-400">
@@ -142,7 +191,8 @@ async function onSubmit(values: z.output<typeof customStickerSchema>) {
                     })}
                     className="h-full"
                 >
-                    <div className="mx-10 grid h-full grid-cols-[1fr_33.333vw] gap-4">
+                    {/* Grid */}
+                    <div id="grid" className="mx-10 grid h-full grid-cols-[1fr_33.333vw] gap-4">
 
                         {/* Dropzone */}
                         <div id="dropzone-container" className="min-h-0 py-10">
@@ -160,10 +210,10 @@ async function onSubmit(values: z.output<typeof customStickerSchema>) {
                                 id="form-header"
                                 className={`flex h-20 shrink-0 items-center justify-center rounded-xl bg-gray-500 text-center text-white ${protestFont.className}`}
                             >
-                                <h3>Custom Sticker Form</h3>
+                                <h3>Working</h3>
                             </div>
 
-                            {/* Product */}
+                            {/* Product Select */}
                             <FormField control={form.control} name="product" render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Product</FormLabel>
@@ -269,14 +319,65 @@ async function onSubmit(values: z.output<typeof customStickerSchema>) {
                             {/* Price */}
                             <div className="mt-2 flex items-center justify-between border-t border-gray-200 py-3">
                                 <span className="text-sm font-medium text-gray-600">Price</span>
-                                {selectedMaterial ? (
-                                    <span className="text-xl font-bold text-amber-500">
-                                        ${selectedMaterial.price.toFixed(2)}
+                                {quote ? (
+                                    <div className="text-right">
+                                        <span className="text-xl font-bold text-amber-500">
+                                            ${(quote.totalCents / 100).toFixed(2)}
+                                        </span>
+                                        <p className="text-xs text-gray-500">
+                                            ${(quote.eachCents / 100).toFixed(2)} each
+                                            {quote.minApplied ? " · minimum order applied" : ""}
+                                        </p>
+                                    </div>
+                                ) : selectedMaterial ? (
+                                    <span className="text-sm text-gray-500">
+                                        from ${selectedMaterial.price.toFixed(2)} / sq ft
                                     </span>
                                 ) : (
                                     <span className="text-sm text-gray-400">Select a material</span>
                                 )}
                             </div>
+
+                            {submitError && (
+                                <p className="text-sm text-red-600">{submitError}</p>
+                            )}
+
+<pre className="text-xs text-gray-500">
+  {JSON.stringify(
+    {
+      product: !!selectedProduct,
+      material: !!selectedMaterial,
+      shape: shapeValue,
+      finish: finishValue,
+      size: sizeValue,
+      quantity: quantityValue,
+      hasQuote: !!quote,
+    },
+    null,
+    2,
+  )}
+</pre>
+
+<pre className="whitespace-pre-wrap rounded bg-white p-2 text-[10px] text-gray-600">
+  {JSON.stringify(
+    {
+      selected: { shapeValue, finishValue, sizeValue, quantityValue },
+      offered: {
+        shapes: selectedProduct?.shapes.map((s) => s.shape),
+        finishes: selectedMaterial?.finishes.map((f) => f.finish),
+        sizes: selectedProduct?.sizes.map((s) => s.size),
+        quantities: selectedProduct?.quantities.map((q) => q.quantity),
+      },
+      firstSize: selectedProduct?.sizes[0],
+      firstFinish: selectedMaterial?.finishes[0],
+      firstShape: selectedProduct?.shapes[0],
+      rate: selectedMaterial?.ratePerSqFtCents,
+      hasQuote: !!quote,
+    },
+    null,
+    2,
+  )}
+</pre>
 
                             {/* Submit */}
                             <div className="mt-auto flex justify-end pt-2">

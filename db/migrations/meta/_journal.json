@@ -50,6 +50,34 @@
       "when": 1794015107385,
       "tag": "0006_first_toad_men",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795239843170,
+      "tag": "0007_tense_multiple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795240021839,
+      "tag": "0008_sync_material_price",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795290128060,
+      "tag": "0009_nice_jack_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1795312153879,
+      "tag": "0010_orange_nicolaos",
+      "breakpoints": true
     }
   ]
 }

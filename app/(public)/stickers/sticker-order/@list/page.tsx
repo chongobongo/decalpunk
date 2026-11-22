@@ -1,5 +1,7 @@
+// Custom Stickers List - Page
+// app\(public)\stickers\sticker-order\@list\page.tsx
+
 import { StickerOrderButtonList } from "@/features/stickers/components/StickerOrderButtonList"
-import { ST } from "next/dist/shared/lib/utils"
 
 const page = () => {
   return (

@@ -16,3 +16,10 @@ export * from "./tables/job-orders/job-order-list-table"
 // Materials
 export * from "./tables/materials/adback-materials-table"
 export * from "./tables/materials/glow-material-table"
+export * from "./tables/materials/materials-ai"
+
+// Vendors
+export * from "./tables/vendors/vendors-table"
+
+// Products
+export * from "./tables/products/products-table"
