@@ -1,3 +1,6 @@
+// Enum Defintions
+// db\tables\enums\enums.ts
+
 import { pgEnum } from "drizzle-orm/pg-core"
 
 // User roles
