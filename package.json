@@ -12,7 +12,7 @@
     "db:studio": "drizzle-kit studio",
     "db:push:local": "drizzle-kit push",
     "db:migrate:local": "drizzle-kit migrate",
-    "db:migrate:prod": "cross-env DB_TARGET=prod CONFIRM_PROD=yes drizzle-kit migrate",
+"db:migrate:prod": "cross-env DB_TARGET=prod CONFIRM_PROD=yes drizzle-kit migrate",
 "seed:vendors": "tsx --env-file=.env.development.local db/seed/seed-vendors.ts",
 "seed:adback": "tsx --env-file=.env.development.local db/seed/seed-adback.ts",
 "seed:catalog": "tsx --env-file=.env.development.local db/seed/seed-catalog.ts",
