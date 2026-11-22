@@ -1,3 +1,6 @@
+// Material Card Slider - Component
+// features\admin\job-orders\new-order\custom-sticker\components\MaterialCardSlider.tsx
+
 "use client"
 import { useRef, useState } from "react"
 import * as Slider from "@radix-ui/react-slider"

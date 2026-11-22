@@ -1,3 +1,6 @@
+// Materials Card - Component
+// features\admin\job-orders\new-order\custom-sticker\components\MaterialCard.tsx
+
 import Image from "next/image"
 import { Protest_Strike } from "next/font/google"
 
