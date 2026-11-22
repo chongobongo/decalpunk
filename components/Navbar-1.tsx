@@ -29,7 +29,7 @@ import { getCurrentUser } from "@/services/clerk"
 export async function Navbar_one() {
 
       const user = await getCurrentUser({ allData: true })
-      console.log("Navbar user →", user)
+
       if (!user.clerkUserId) return null
     
     const config: NavConfig = navData[user.role as UserRole] ?? navData.user
