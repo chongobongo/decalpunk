@@ -1,4 +1,6 @@
 // custom-sticker-db.ts
+// features\products\custom-stickers\db\custom-sticker-db.ts
+
 import { db } from "@/db"
 import { CustomStickersTable, JobOrdersTable, JobOrderListTable } from "@/db/schemaDB"
 
@@ -49,30 +51,37 @@ async function insertLineItem(tx: Tx, listId: string, userId: string, item: Cust
     return { stickerId: sticker.id, jobOrderId: jobOrder.id }
 }
 
-// Whole cart = one job_order_list, one job_orders row per item
-export async function insertCustomStickerOrders(items: CustomStickerInput[], userId: string) {
+// Runs inside a transaction the caller already opened (used by fulfillOrder)
+export async function insertCustomStickerOrdersTx(
+    tx: Tx,
+    items: CustomStickerInput[],
+    userId: string,
+) {
     const [first] = items
     if (!first) throw new Error("No items to insert")
 
-    return await db.transaction(async (tx) => {
-        const [list] = await tx
-            .insert(JobOrderListTable)
-            .values({
-                user_id: userId,
-                job_title: items.length === 1 ? buildJobTitle(first) : `Sticker order (${items.length} items)`,
-            })
-            .returning({ id: JobOrderListTable.id })
-        if (!list) throw new Error("Failed to create job order list")
+    const [list] = await tx
+        .insert(JobOrderListTable)
+        .values({
+            user_id: userId,
+            job_title: items.length === 1 ? buildJobTitle(first) : `Sticker order (${items.length} items)`,
+        })
+        .returning({ id: JobOrderListTable.id })
+    if (!list) throw new Error("Failed to create job order list")
 
-        const lineItems = []
-        for (const item of items) {
-            lineItems.push(await insertLineItem(tx, list.id, userId, item))
-        }
-        return { listId: list.id, lineItems }
-    })
+    const lineItems = []
+    for (const item of items) {
+        lineItems.push(await insertLineItem(tx, list.id, userId, item))
+    }
+    return { listId: list.id, lineItems }
 }
 
-// Single-item convenience wrapper (used by createCustomStickerOrder)
+// Whole cart = one job_order_list, one job_orders row per item
+export async function insertCustomStickerOrders(items: CustomStickerInput[], userId: string) {
+    return await db.transaction((tx) => insertCustomStickerOrdersTx(tx, items, userId))
+}
+
+// Single-item convenience wrapper
 export async function insertCustomStickerOrder(data: CustomStickerInput) {
     if (!data.user_id) throw new Error("user_id is required")
     return await insertCustomStickerOrders([data], data.user_id)
