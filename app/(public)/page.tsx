@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import { Protest_Strike } from "next/font/google"
-import { SignInButton } from "@clerk/nextjs";
 
 import { materialHomePageData } from "@/app/data"
 import { testimonialData } from "@/app/data"
@@ -87,13 +86,14 @@ export default async function Home() {
               </Link>
             </div>
 
-            {/* Sign-in button - pinned at the bottom */}
+            {/* Sign-in link - pinned at the bottom */}
             <div className="bg-black flex justify-center items-center py-6">
-              <SignInButton mode="modal">
-                <button className="px-6 py-3 bg-white text-black rounded-lg text-xl hover:bg-gray-800 transition">
-                  Sign In
-                </button>
-              </SignInButton>
+              <Link
+                href="/sign-in"
+                className="px-6 py-3 bg-white text-black rounded-lg text-xl hover:bg-gray-300 transition"
+              >
+                Sign In
+              </Link>
             </div>
 
           </div>
