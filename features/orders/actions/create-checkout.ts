@@ -3,7 +3,7 @@
 
 "use server"
 
-import Stripe from "stripe"
+import { getStripe } from "@/lib/stripe"
 import { z } from "zod"
 import { eq } from "drizzle-orm"
 import { db } from "@/db"
@@ -13,8 +13,6 @@ import { canCreateOrder } from "@/app/permissions/general"
 import { isUploadThingUrl } from "@/lib/isUploadThingUrl"
 import type { ImageMetadata } from "@/lib/getImageMetadata"
 import { quoteJob } from "@/features/products/queries/quoteJob"
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 const lineSchema = z.object({
   productId: z.string().uuid(),
@@ -31,6 +29,7 @@ type Line = z.infer<typeof lineSchema>
 type Quote = NonNullable<Awaited<ReturnType<typeof quoteJob>>>
 
 export async function createCheckout(input: unknown) {
+  const stripe = getStripe()
   const user = await getCurrentUser()
   if (user.userId == null) return { error: true as const, message: "Please sign in to check out." }
   if (!canCreateOrder(user)) return { error: true as const, message: "You do not have permission to place an order." }

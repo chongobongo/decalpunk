@@ -1,10 +1,10 @@
 import Stripe from "stripe"
+import { getStripe } from "@/lib/stripe"
 import { and, eq } from "drizzle-orm"
 import { db } from "@/db"
 import { OrdersTable } from "@/db/schemaDB"
 import { fulfillOrder } from "@/features/orders/fulfill-order"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function POST(req: Request) {
   const body = await req.text()
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
   let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
+event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
   } catch (e) {
     console.error("WEBHOOK signature failed:", e instanceof Error ? e.message : e)
     return new Response("Invalid signature", { status: 400 })
