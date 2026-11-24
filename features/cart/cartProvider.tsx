@@ -1,4 +1,5 @@
 // Cart Provider
+// features\cart\cartProvider.tsx
 
 "use client"
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
@@ -6,6 +7,9 @@ import type { ImageMetadata } from "@/lib/getImageMetadata"
 
 export type CartItem = {
     id: string
+    productId: string
+    materialId: string
+    totalCents: number
     product: string
     shape: string
     material: string
@@ -26,7 +30,7 @@ type CartContextValue = {
 }
 
 const CartContext = createContext<CartContextValue | null>(null)
-const KEY = "cart-v1"
+const KEY = "cart-v2"
 
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>([])
