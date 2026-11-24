@@ -12,12 +12,12 @@
     "db:studio": "drizzle-kit studio",
     "db:push:local": "drizzle-kit push",
     "db:migrate:local": "drizzle-kit migrate",
-"db:migrate:prod": "cross-env DB_TARGET=prod CONFIRM_PROD=yes drizzle-kit migrate",
-"seed:vendors": "tsx --env-file=.env.development.local db/seed/seed-vendors.ts",
-"seed:adback": "tsx --env-file=.env.development.local db/seed/seed-adback.ts",
-"seed:catalog": "tsx --env-file=.env.development.local db/seed/seed-catalog.ts",
-"seed:products": "tsx --env-file=.env.development.local db/seed/seed-products.ts",
-"seed:pricing": "tsx --env-file=.env.development.local db/seed/seed-pricing.ts"
+    "db:migrate:prod": "cross-env DB_TARGET=prod CONFIRM_PROD=yes drizzle-kit migrate",
+    "seed:vendors": "tsx --env-file=.env.development.local db/seed/seed-vendors.ts",
+    "seed:adback": "tsx --env-file=.env.development.local db/seed/seed-adback.ts",
+    "seed:catalog": "tsx --env-file=.env.development.local db/seed/seed-catalog.ts",
+    "seed:products": "tsx --env-file=.env.development.local db/seed/seed-products.ts",
+    "seed:pricing": "tsx --env-file=.env.development.local db/seed/seed-pricing.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.0.2",
@@ -44,7 +44,7 @@
     "react-hook-form": "^7.71.2",
     "react-hook-toast": "^0.0.4",
     "react-icons": "^5.5.0",
-    "stripe": "^23.0.1",
+    "stripe": "^23.2.0",
     "svix": "^1.87.0",
     "tailwind-merge": "^3.5.0",
     "uploadthing": "^7.7.4",
