@@ -1,3 +1,4 @@
+// Custom Sticker Schema - Public
 // features\products\custom-stickers\schema\customStickerSchema.ts
 
 import { z } from "zod"
