@@ -23,3 +23,6 @@ export * from "./tables/vendors/vendors-table"
 
 // Products
 export * from "./tables/products/products-table"
+
+// Orders
+export * from "./tables/orders/orders-table"
