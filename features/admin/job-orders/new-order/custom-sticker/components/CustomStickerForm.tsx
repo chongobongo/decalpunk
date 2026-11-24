@@ -140,46 +140,10 @@ const quote = useMemo(() => {
         form.resetField("finish")
     }, [form, selectedMaterialId])
 
-    async function onSubmit(values: z.output<typeof customStickerSchema>) {
-        setStep("1. onSubmit started")
-        setSubmitError(null)
-
-        if (!quote) {
-            setSubmitError("Choose a shape, material, finish, size and quantity to get a price.")
-            return
-        }
-
-        try {
-            const fd = new FormData()
-            fd.append("image", values.image)
-
-            setStep("2. uploading image")
-            const upload = await uploadCartImage(fd)
-            if (upload.error) {
-                setStep("3. upload returned an error")
-                setSubmitError(upload.message)
-                return
-            }
-
-            addItem({
-                product: selectedProduct?.product ?? values.product,
-                shape: values.shape,
-                material: selectedMaterial?.material ?? values.material,
-                finish: values.finish,
-                size: values.size,
-                quantity: values.quantity,
-                unitPrice: quote.eachCents / 100,
-                img: upload.url,
-                imageMetadata: imageMeta,
-            })
-
-            setStep("3. added to cart, redirecting")
-            router.push("/cart")
-        } catch (e) {
-            setStep("X. threw an error: " + String(e))
-            setSubmitError(e instanceof Error ? e.message : "Something went wrong.")
-        }
-    }
+async function onSubmit(_values: z.output<typeof customStickerSchema>) {
+    // Admin ordering is not set up yet. Intentionally does nothing.
+    setSubmitError("Admin ordering isn't enabled yet.")
+}
 
     return (
         <main className="h-full bg-slate-400">
@@ -381,9 +345,7 @@ const quote = useMemo(() => {
 
                             {/* Submit */}
                             <div className="mt-auto flex justify-end pt-2">
-                                <Button disabled={form.formState.isSubmitting} type="submit">
-                                    Save
-                                </Button>
+ <Button disabled type="submit">Save</Button>
                             </div>
                         </div>
                     </div>

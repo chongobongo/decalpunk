@@ -1,4 +1,5 @@
 // job-orders-table.ts - Job Orders Table
+// db\tables\job-orders\job-orders-table.ts
 
 import { index, integer, pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core"
 import { id, created_at, updated_at } from "@/db/schemaHelpers"

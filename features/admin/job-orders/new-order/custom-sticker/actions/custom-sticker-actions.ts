@@ -1,4 +1,4 @@
-// custom-sticker-actions.ts
+// Admin - Create Order From Cart - custom-sticker-actions.ts
 // features\admin\job-orders\new-order\custom-sticker\actions\custom-sticker-actions.ts
 
 "use server"
@@ -11,6 +11,12 @@ import { canCreateOrder } from "@/app/permissions/general"
 import type { ImageMetadata } from "@/lib/getImageMetadata"
 import { insertCustomStickerOrder, insertCustomStickerOrders } from "@/features/admin/job-orders/new-order/custom-sticker/db/custom-sticker-db"
 import { updateJobOrderListCache } from "@/features/admin/job-orders/orders-list/db/cache/job-order-list-cache"
+
+// Admin ordering is not set up yet. While this is false, the two order-creating
+// actions below return early, so nobody can create unpaid job orders by calling
+// them directly. Server actions are public endpoints, so this guard matters.
+// Set to true only once admin ordering has its own admin-only permission check.
+const ADMIN_ORDERING_ENABLED = false as boolean
 
 const cartItemSchema = z.object({
     product: z.string().min(1),
@@ -26,6 +32,10 @@ const cartItemSchema = z.object({
 const utapi = new UTApi()
 
 export async function createCustomStickerOrder(formData: FormData) {
+    if (!ADMIN_ORDERING_ENABLED) {
+        return { error: true, message: "Admin ordering is disabled." }
+    }
+
     try {
         const user = await getCurrentUser()
 
@@ -129,6 +139,10 @@ function isUploadThingUrl(value: string) {
 }
 
 export async function createOrdersFromCart(items: unknown) {
+    if (!ADMIN_ORDERING_ENABLED) {
+        return { error: true as const, message: "Admin ordering is disabled." }
+    }
+
     try {
         const user = await getCurrentUser()
 

@@ -1,4 +1,5 @@
 // Custom Stickers Table
+// db\tables\job-orders\product-orders\custom-stickers.ts
 
 import { index, jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";

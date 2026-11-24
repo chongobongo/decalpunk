@@ -1,7 +1,7 @@
-// Quot Job - Queries
+// Quote Job - Queries
 // features\products\queries\quoteJob.ts
 
-import { db } from "@/db/index"   // same db import as your other queries
+import { db } from "@/db/index"
 import { dollarsToCents, priceJob } from "@/lib/pricing"
 
 export async function quoteJob(input: {
@@ -24,7 +24,7 @@ export async function quoteJob(input: {
   const quantityOffered = product.quantities.some((q) => q.quantity === input.quantity)
   if (!material?.is_active || !finish || !shape || !size || !quantityOffered) return null
 
-  return priceJob({
+  const result = priceJob({
     ratePerSqFtCents: dollarsToCents(material.price_per_sq_ft),
     finishAdjPerSqFtCents: dollarsToCents(finish.price_adjustment_per_sq_ft),
     widthIn: size.width_in,
@@ -38,4 +38,7 @@ export async function quoteJob(input: {
     setupFeeCents: product.setup_fee_cents,
     minOrderCents: product.min_order_cents,
   })
+
+  // Names come from the database so the order snapshot never depends on the browser
+  return { ...result, productName: product.name, materialName: material.name }
 }

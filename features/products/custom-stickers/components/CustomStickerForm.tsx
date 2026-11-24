@@ -20,7 +20,7 @@ import { MaterialCardSlider } from "./MaterialCardSlider";
 import { Dropzone } from "./Dropzone"
 import { PiArrowBendRightDownFill } from "react-icons/pi";
 
-import { uploadCartImage } from "../actions/custom-sticker-actions"
+import { uploadCartImage } from "@/features/products/custom-stickers/actions/custom-sticker-actions"
 import { useCart } from "@/features/cart/cartProvider"
 
 type Product = {
@@ -152,17 +152,20 @@ export function CustomStickerForm({
                 return
             }
 
-            addItem({
-                product: selectedProduct?.product ?? values.product,
-                shape: values.shape,
-                material: selectedMaterial?.material ?? values.material,
-                finish: values.finish,
-                size: values.size,
-                quantity: values.quantity,
-                unitPrice: quote.eachCents / 100,
-                img: upload.url,
-                imageMetadata: imageMeta,
-            })
+addItem({
+    productId: selectedProduct!.id,
+    materialId: selectedMaterial!.id,
+    product: selectedProduct?.product ?? values.product,
+    shape: values.shape,
+    material: selectedMaterial?.material ?? values.material,
+    finish: values.finish,
+    size: values.size,
+    quantity: values.quantity,
+    unitPrice: quote.eachCents / 100,
+    totalCents: quote.totalCents,
+    img: upload.url,
+    imageMetadata: imageMeta,
+})
 
             setStep("3. added to cart, redirecting")
             router.push("/cart")

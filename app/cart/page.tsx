@@ -1,37 +1,47 @@
+// Cart Check-Out - Page
+// app\cart\page.tsx
+
 "use client"
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/features/cart/cartProvider"
-import { createOrdersFromCart } from "@/features/admin/job-orders/new-order/custom-sticker/actions/custom-sticker-actions"
+import { createCheckout } from "@/features/orders/actions/create-checkout"
 
 export default function CartPage() {
-    const router = useRouter()
     const { items, ready, removeItem, clear } = useCart()
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    const total = items.reduce((sum, i) => sum + i.unitPrice, 0)
+    const totalCents = items.reduce((sum, i) => sum + i.totalCents, 0)
 
     async function handleCheckout() {
         setSubmitting(true)
         setError(null)
         try {
-            const result = await createOrdersFromCart(
-                items.map(({ id, unitPrice, ...rest }) => rest)
+            const result = await createCheckout(
+                items.map((i) => ({
+                    productId: i.productId,
+                    materialId: i.materialId,
+                    shape: i.shape,
+                    finish: i.finish,
+                    size: i.size,
+                    quantity: Number(i.quantity),
+                    img: i.img,
+                    imageMetadata: i.imageMetadata,
+                })),
             )
             if (result.error) {
                 setError(result.message)
+                setSubmitting(false)
                 return
             }
-            clear()
-            router.push(result.redirectUrl)
+            // Don't clear the cart here. It is cleared on the order page after payment.
+            window.location.href = result.url
         } catch (e) {
             console.error("checkout error:", e)
             setError("Something went wrong. Please try again.")
-        } finally {
             setSubmitting(false)
         }
     }
@@ -46,7 +56,7 @@ export default function CartPage() {
                 <h1 className="mb-4 text-2xl font-bold">Your cart</h1>
                 <p className="mb-4 text-gray-600">Your cart is empty.</p>
                 <Button asChild>
-                    <Link href="/stickers/custom-stickers">Design a sticker</Link>
+                    <Link href="/stickers/sticker-order/custom-stickers">Design a sticker</Link>
                 </Button>
             </main>
         )
@@ -63,7 +73,7 @@ export default function CartPage() {
                         <img
                             src={item.img}
                             alt={`${item.product} artwork`}
-                            className="h-24 w-24 rounded border border-gray-200 object-contain bg-white"
+                            className="h-24 w-24 rounded border border-gray-200 bg-white object-contain"
                         />
 
                         <div className="flex-1">
@@ -77,9 +87,14 @@ export default function CartPage() {
                         </div>
 
                         <div className="flex flex-col items-end justify-between">
-                            <span className="font-bold text-amber-500">
-                                ${item.unitPrice.toFixed(2)}
-                            </span>
+                            <div className="text-right">
+                                <span className="font-bold text-amber-500">
+                                    ${(item.totalCents / 100).toFixed(2)}
+                                </span>
+                                <p className="text-xs text-gray-500">
+                                    ${item.unitPrice.toFixed(2)} each
+                                </p>
+                            </div>
                             <Button
                                 type="button"
                                 variant="ghost"
@@ -98,20 +113,22 @@ export default function CartPage() {
                 <span className="text-sm font-medium text-gray-600">
                     Estimated total ({items.length} {items.length === 1 ? "item" : "items"})
                 </span>
-                <span className="text-xl font-bold text-amber-500">${total.toFixed(2)}</span>
+                <span className="text-xl font-bold text-amber-500">
+                    ${(totalCents / 100).toFixed(2)}
+                </span>
             </div>
 
             {error && <p className="mb-3 text-sm text-red-600">{error}</p>}
 
             <div className="flex gap-3">
                 <Button type="button" onClick={handleCheckout} disabled={submitting}>
-                    {submitting ? "Placing order…" : "Place order"}
+                    {submitting ? "Starting checkout…" : "Checkout"}
                 </Button>
                 <Button type="button" variant="outline" onClick={clear} disabled={submitting}>
                     Clear cart
                 </Button>
                 <Button asChild variant="ghost">
-                    <Link href="/stickers/custom-stickers">Add another</Link>
+                    <Link href="/stickers/sticker-order/custom-stickers">Add another</Link>
                 </Button>
             </div>
         </main>

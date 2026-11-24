@@ -1,4 +1,5 @@
 // Job Orders List Table
+// db\tables\job-orders\job-order-list-table.ts
 
 import { created_at, id, updated_at } from "@/db/schemaHelpers";
 import { relations } from "drizzle-orm";

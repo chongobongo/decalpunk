@@ -78,6 +78,13 @@
       "when": 1795312153879,
       "tag": "0010_orange_nicolaos",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1795391853856,
+      "tag": "0011_freezing_wild_pack",
+      "breakpoints": true
     }
   ]
 }
