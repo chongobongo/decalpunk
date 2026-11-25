@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { UserRole, UsersTable } from "@/db/schemaDB";
 import { insertUser } from "@/features/users/db/users";
 import { syncClerkUserMetadata } from "@/services/clerk";
+import { buildDisplayName } from "@/lib/displayName";
 import { currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
@@ -16,8 +17,17 @@ function parseRole(role: unknown): UserRole {
 export async function GET(request: Request) {
   const user = await currentUser();
   if (user == null) return new Response("User not found", { status: 500 });
-  if (user.fullName == null) return new Response("User name missing", { status: 500 });
-  if (user.primaryEmailAddress?.emailAddress == null) return new Response("User email missing", { status: 500 });
+
+  const email = user.primaryEmailAddress?.emailAddress
+  if (email == null) return new Response("User email missing", { status: 500 });
+
+  const name = buildDisplayName({
+    fullName: user.fullName,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    username: user.username,
+    email,
+  })
 
   // Check if user already exists
   const existingUser = await db.query.UsersTable.findFirst({
@@ -26,10 +36,10 @@ export async function GET(request: Request) {
 
   const dbUser = await insertUser({
     clerkUserId: user.id,
-    name: user.fullName,
-    email: user.primaryEmailAddress.emailAddress,
+    name,
+    email,
     imageUrl: user.imageUrl,
-    role: existingUser?.role ?? parseRole(user.publicMetadata.role), // 👈 preserve existing role
+    role: existingUser?.role ?? parseRole(user.publicMetadata.role), // preserve existing role
   });
 
   if (!dbUser.clerkUserId) {
