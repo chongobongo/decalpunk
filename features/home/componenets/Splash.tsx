@@ -86,6 +86,7 @@ export const Splash = ({
             </div>
 
 <div id="image" className="order-1 mt-5 flex items-center justify-center px-4 md:order-2 md:items-start md:px-0 md:pt-10">
+<Link href="/bios/cat">
     <Image
         src={splash}
         width={500}
@@ -95,6 +96,7 @@ export const Splash = ({
         alt="Splash-Image"
         priority
     />
+</Link>
 </div>
         </section>
     )

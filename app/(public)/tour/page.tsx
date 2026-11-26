@@ -1,12 +1,19 @@
-// Tour Home Page
+// Tour Page
 // app\(public)\tour\page.tsx
+import { Protest_Strike } from "next/font/google"
 
-const tourPage = () => {
-  return (
-    <div>
-      <h3>Tour Home Page</h3>
-    </div>
-  )
+const protestFont = Protest_Strike({
+  subsets: ["latin"],
+  weight: "400",
+})
+
+export default function TourPage() {
+
+    return (
+      <main className="text-center h-screen relative flex min-h-0 flex-1 flex-col bg-stone-100">
+        <h3 id="header" className={`${protestFont.className} mt-60 text-4xl  hidden lg:block`}>
+            Tour Page</h3>
+            <p className="mt-5">A short view of the site while under construction.</p>
+      </main>
+    )
 }
-
-export default tourPage

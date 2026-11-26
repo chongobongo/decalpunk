@@ -5,6 +5,7 @@ import Image from "next/image"
 import DecalIconBuzzBass from "@/app/images/icons/decal-icon-buzz-bass.png"
 import DecalLogoRecord from "@/app/images/icons/decal-logo-record.png"
 import { Protest_Strike } from "next/font/google"
+import Link from "next/link"
 
 const protestFont = Protest_Strike({
   subsets: ["latin"],
@@ -19,6 +20,7 @@ export const DividingBox = () => {
 >
   {/* Fixed-size slot: the image is centered inside it and can extend past the box */}
   <div id="image-left" className="relative h-full w-24 shrink-0 sm:w-36 lg:w-[200px]">
+  <Link href="/bios/buzz">
     <Image
       src={DecalIconBuzzBass}
       width={200}
@@ -26,7 +28,7 @@ export const DividingBox = () => {
       sizes="(min-width: 1024px) 200px, (min-width: 640px) 144px, 96px"
       className="absolute left-0 top-1/2 h-auto w-full -translate-y-1/2 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]"
       alt="Decal Punk Icon"
-    />
+    /></Link>
   </div>
 
   <h3
