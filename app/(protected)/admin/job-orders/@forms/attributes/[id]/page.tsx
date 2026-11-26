@@ -11,39 +11,8 @@ import { z } from "zod"
 import { db } from "@/db"
 import { CustomStickersTable } from "@/db/schemaDB"
 import { getJobOrderListTag } from "@/features/admin/job-orders/orders-list/db/cache/job-order-list-cache"
-import { PageHeader } from "@/components/PageHeader"
-import {
-    CustomStickerEditForm,
-    type StickerEditOptions,
-} from "@/features/admin/job-orders/edit-job/components/CustomStickerEditForm"
-
-// "value" is what gets saved to the database, so it must match what your create form saves.
-// While a list is empty, that dropdown only contains the item's current value.
-// TODO: fill in material, finish, size and quantity the same way as shape.
-const OPTIONS: StickerEditOptions = {
-    shape: [
-        { value: "Circle", label: "Circle" },
-        { value: "Square", label: "Square" },
-        { value: "Rounded Corners", label: "Rounded Corners" },
-        { value: "Contoured Cut", label: "Contoured Cut" },
-    ],
-    material: [],
-    finish: [
-        { value: "Glossy", label: "Glossy"},
-        { value: "Matte", label: "Matte" },
-        { value: "Cracked Ice", label: "Cracked Ice"}
-    ],
-    size: [
-        { value: "2x2", label: "2x2" },
-        { value: "3x3", label: "3x3" },
-        { value: "4x4", label: "4x4" }
-    ],
-    quantity: [
-        { value: "25", label: "25" },
-        { value: "50", label: "50" },
-        { value: "100", label: "100" }
-    ],
-}
+import { CustomStickerEditForm } from "@/features/admin/job-orders/edit-job/components/CustomStickerEditForm"
+import { getStickerEditOptions } from "@/features/products/queries/getStickerEditOptions"
 
 export default async function EditCustomStickerItemPage({
     params,
@@ -58,12 +27,16 @@ export default async function EditCustomStickerItemPage({
 
     const { jobOrder, ...item } = found
 
+    // Dropdown choices come from the product catalog, the same source as the order form
+    const { options, finishesByMaterial } = await getStickerEditOptions(item.product)
+
     return (
-        <main className="flex flex-col gap-6">
+        <main className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-6">
             <CustomStickerEditForm
                 item={item}
                 listId={jobOrder?.list_id ?? null}
-                options={OPTIONS}
+                options={options}
+                finishesByMaterial={finishesByMaterial}
             />
         </main>
     )

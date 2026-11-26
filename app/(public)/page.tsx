@@ -29,9 +29,10 @@ export default async function Home() {
         {clerkUserId ? (
           <>
             <Splash
-                headline="Print Custom Stickers and Labels!"
-                paragraph="Make your own custom stickers and labels. Express delivery as fast as 2-4 business days. Get an instant proof and free shipping!"
-                button_text="Make a custom sticker"/>
+                headlineCustom="Print Your Own Stickers and Labels!"
+                headlineGallery="Select From Our Gallery of Junk!"
+                buttonTextCustom="Custom sticker"
+                buttonTextGallery="Gallery"/>
 
     {/* Materials Section */}
             <div id="materialSelection" className="mt-6 mr-auto ml-auto">
@@ -58,17 +59,15 @@ export default async function Home() {
             </div>
 
             <DividingBox />
-         {/* Testimonials Section */}
-            <div id="testimonials" className="mt-6 mr-auto ml-auto text-center">
-              <label className={`text-4xl ${protestFont.className}`}>Brand Testimonials</label>
-              <div className="p-6 gap-6 grid grid-cols-2 md:grid-cols-4">
-                  {testimonialData.map((item) => {
-                    return <div key={item.id}>
-                              <BrandTestimonials testimonial={item} />
-                            </div>
-                        })}
-              </div>
-            </div>
+{/* Testimonials Section */}
+<div id="testimonials" className="mx-auto mt-6 w-full max-w-7xl px-4 text-center">
+  <label className={`text-4xl ${protestFont.className}`}>Brand Testimonials</label>
+<div className="flex flex-wrap justify-center gap-6 py-6">
+  {testimonialData.map((item) => (
+    <BrandTestimonials key={item.id} testimonial={item} />
+  ))}
+</div>
+</div>
 
             <div id="footer" className="mt-6">
               <Footer />

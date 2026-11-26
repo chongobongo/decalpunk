@@ -32,12 +32,6 @@ export const BrandTestimonials = ({
                     <div id="stars" className="text-xl">
                         {testimonial.description}
                     </div>
-                    <div id="paragraph">
-                        {testimonial.label}
-                    </div>
-                    <div id="url">
-                        {testimonial.url}
-                    </div>
                 </div>
             </Link>
     )
