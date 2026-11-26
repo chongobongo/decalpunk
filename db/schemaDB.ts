@@ -26,3 +26,4 @@ export * from "./tables/products/products-table"
 
 // Orders
 export * from "./tables/orders/orders-table"
+export * from "./tables/job-orders/job-order-processing-table"
