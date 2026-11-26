@@ -44,7 +44,7 @@ export const testimonialData = [
         id: "0",
         image: porscheLogo.src,
         stars: "Stars-0",
-        description: "Description-0",
+        description: "The Best!",
         label: "Label-0",
         url: "URL-0"
     },
@@ -52,7 +52,7 @@ export const testimonialData = [
         id: "1",
         image: squareLA.src,
         stars: "Stars-1",
-        description: "Description-1",
+        description: "Top Shelf!",
         label: "Label-1",
         url: "URL-1"
     },
@@ -60,16 +60,8 @@ export const testimonialData = [
         id: "2",
         image: coachellaLogo.src,
         stars: "Stars-2",
-        description: "Description-2",
+        description: "Pretty Sticky!",
         label: "Label-2",
         url: "URL-2"
-    },
-        {
-        id: "4",
-        image: foxLogo.src,
-        stars: "Stars-4",
-        description: "Description-4",
-        label: "Label-4",
-        url: "URL-4"
     }
 ]
