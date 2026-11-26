@@ -9,9 +9,9 @@ export default function NavLayout({
   children: React.ReactNode
 }>) {
   return (
-    <section>
+    <section className="flex min-h-0 flex-1 flex-col">
       <Navbar_one />
-      <div className="min-h-0 flex-1">{children}</div>
+      <div className="flex min-h-0 flex-1 flex-col">{children}</div>
     </section>
   )
 }

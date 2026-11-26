@@ -9,12 +9,18 @@ const protestFont = Protest_Strike({
 })
 
 export default function GalleryPage() {
-
-    return (
-      <main className="text-center h-screen relative flex min-h-0 flex-1 flex-col bg-stone-100">
-        <h3 id="header" className={`${protestFont.className} mt-60 text-4xl  hidden lg:block`}>
-            Gallery Index</h3>
-            <p className="mt-5">Displays the catagories of art.</p>
-      </main>
-    )
+  return (
+    <main className="flex min-h-[70dvh] flex-1 flex-col items-center justify-center gap-4 bg-stone-100 px-4 py-12 text-center">
+      <h1
+        id="header"
+        className={`${protestFont.className} text-4xl sm:text-5xl lg:text-6xl`}
+      >
+        Gallery Index
+      </h1>
+      <p className="max-w-md text-lg sm:text-xl">
+        Displays the categories of art.
+      </p>
+      <p className="text-sm text-slate-500">Coming soon.</p>
+    </main>
+  )
 }
