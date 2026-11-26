@@ -6,7 +6,7 @@
 // Needs: npm i react-hook-form @hookform/resolvers   (skip if already installed)
 // Uses plain <select> / <input> so it doesn't depend on shadcn form components.
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
@@ -21,6 +21,7 @@ import {
     type CustomStickerEditValues,
 } from "@/features/admin/job-orders/edit-job/schema/customStickerSchemaEdit"
 import { updateCustomStickerItemAction } from "@/features/admin/job-orders/edit-job/actions/custom-sticker-edit-actions"
+import { startProcessingAction } from "../../processing/actions/start-processing"
 
 // Product is NOT editable, so it is not in this list (it's shown read-only below).
 const FIELDS = [
@@ -46,6 +47,14 @@ type Item = {
     img: string | null
 }
 
+// Shared Tailwind classes, so every field looks the same and changes happen in one place
+const fieldClass = "flex flex-col gap-1.5"
+const labelClass = "text-sm font-medium text-slate-900"
+const controlClass =
+    "h-9 w-full rounded-md border border-input bg-background px-3 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+const errorClass = "text-sm text-destructive"
+const hintClass = "text-sm text-muted-foreground"
+
 // If the saved value isn't in the option list (old data, renamed option), keep it selectable
 // so the form doesn't silently blank it out.
 function withCurrent(options: Option[], current: string | null): Option[] {
@@ -57,10 +66,13 @@ export function CustomStickerEditForm({
     item,
     listId,
     options,
+    finishesByMaterial = {},
 }: {
     item: Item
     listId: string | null
     options: StickerEditOptions
+    // Finishes each material offers, keyed by material name. Falls back to options.finish.
+    finishesByMaterial?: Record<string, Option[]>
 }) {
     const router = useRouter()
     const backHref = listId ? `/admin/job-orders/job-edit/${listId}` : "/admin/job-orders"
@@ -84,6 +96,19 @@ export function CustomStickerEditForm({
         watch,
         formState: { errors, isDirty, isSubmitting },
     } = form
+
+    // Finishes follow the selected material
+    const materialValue = watch("material")
+    const finishOptions = finishesByMaterial[materialValue] ?? options.finish
+
+    // When the boss picks a different material, clear a finish that material doesn't offer
+    useEffect(() => {
+        if (materialValue === item.material) return
+        const current = form.getValues("finish")
+        if (current && !finishOptions.some((o) => o.value === current)) {
+            setValue("finish", "", { shouldDirty: true })
+        }
+    }, [materialValue, item.material, finishOptions, form, setValue])
 
     // Preview of a newly chosen file
     const newImage = watch("image")
@@ -124,46 +149,50 @@ export function CustomStickerEditForm({
         router.push(res.redirectUrl ?? backHref)
     }
 
+    const [pending, startTransition] = useTransition()
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-xl flex-col gap-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex w-full max-w-xl flex-col gap-5 sm:gap-6">
             {/* Product: display only. The server never accepts a product change. */}
-            <div className="flex flex-col gap-1.5">
-                <span className="text-sm font-medium">Product</span>
-                <p className="flex h-9 items-center rounded-md border border-input bg-muted px-3 text-sm text-muted-foreground">
+            <div className={fieldClass}>
+                <span className={labelClass}>Product</span>
+                <p className={`${controlClass} flex items-center bg-muted text-muted-foreground`}>
                     {item.product ?? "-"}
                 </p>
             </div>
 
-            {FIELDS.map(({ name, label }) => (
-                <div key={name} className="flex flex-col gap-1.5">
-                    <label htmlFor={name} className="text-sm font-medium">
-                        {label}
-                    </label>
-                    <select
-                        id={name}
-                        {...register(name)}
-                        className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-                    >
-                        <option value="" disabled>
-                            Select a {label.toLowerCase()}
-                        </option>
-                        {withCurrent(options[name], item[name]).map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                    {errors[name] ? (
-                        <p className="text-sm text-destructive">{errors[name]?.message}</p>
-                    ) : null}
-                </div>
-            ))}
+            {FIELDS.map(({ name, label }) => {
+                // Only keep the saved finish selectable while the material is unchanged
+                const current =
+                    name === "finish" && materialValue !== item.material ? null : item[name]
 
-            <div className="flex flex-col gap-1.5">
-                <label htmlFor="image" className="text-sm font-medium">
+                return (
+                    <div key={name} className={fieldClass}>
+                        <label htmlFor={name} className={labelClass}>
+                            {label}
+                        </label>
+                        <select id={name} {...register(name)} className={controlClass}>
+                            <option value="" disabled>
+                                Select a {label.toLowerCase()}
+                            </option>
+                            {withCurrent(name === "finish" ? finishOptions : options[name], current).map(
+                                (option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ),
+                            )}
+                        </select>
+                        {errors[name] ? <p className={errorClass}>{errors[name]?.message}</p> : null}
+                    </div>
+                )
+            })}
+
+            <div className={fieldClass}>
+                <label htmlFor="image" className={labelClass}>
                     Artwork
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                     {shownImg ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -171,13 +200,14 @@ export function CustomStickerEditForm({
                             alt=""
                             width={96}
                             height={96}
-                            className="h-24 w-24 rounded border object-contain"
+                            className="h-24 w-24 shrink-0 rounded border bg-white object-contain"
                         />
                     ) : null}
                     <input
                         id="image"
                         type="file"
                         accept="image/*"
+                        className="min-w-0 max-w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-3 file:py-1.5 file:text-sm file:text-white hover:file:bg-slate-700"
                         onChange={(e) =>
                             setValue("image", e.target.files?.[0] ?? null, {
                                 shouldDirty: true,
@@ -187,22 +217,30 @@ export function CustomStickerEditForm({
                     />
                 </div>
                 {previewUrl ? (
-                    <p className="text-sm text-muted-foreground">
+                    <p className={hintClass}>
                         New artwork selected. It replaces the current file when you save.
                     </p>
                 ) : null}
-                {errors.image ? (
-                    <p className="text-sm text-destructive">{errors.image.message}</p>
-                ) : null}
+                {errors.image ? <p className={errorClass}>{errors.image.message}</p> : null}
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3 border-t pt-5">
                 <Button type="submit" disabled={!isDirty || isSubmitting}>
                     {isSubmitting ? "Saving..." : "Save changes"}
                 </Button>
-                <Button asChild variant="outline" type="button">
-                    <Link href={`../processing`}>Processing</Link>
-                </Button>
+<Button
+    type="button"
+    variant="outline"
+    disabled={isDirty || pending}
+    onClick={() =>
+        startTransition(async () => {
+            const res = await startProcessingAction(item.id)
+            if (res?.error) actionToast({ actionData: res })
+        })
+    }
+>
+    {pending ? "Starting..." : "Processing"}
+</Button>
                 <Button asChild variant="outline" type="button">
                     <Link href={backHref}>Cancel</Link>
                 </Button>
