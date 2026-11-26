@@ -1,6 +1,7 @@
 // Home Page - Decal Punk
 // app\(public)\page.tsx
 
+import Image from "next/image";
 import Link from "next/link";
 import { Protest_Strike } from "next/font/google"
 
@@ -14,6 +15,7 @@ import { MaterialCard } from "@/features/home/componenets/MaterialCard";
 import { DividingBox } from "@/features/home/componenets/DividingBox";
 import { BrandTestimonials } from "@/features/home/componenets/BrandTestimonials";
 import { Footer } from "@/features/home/componenets/Footer";
+import DecalLogoRecord from "@/app/images/icons/decal-logo-record.png"
 
 const protestFont = Protest_Strike({
      subsets: ["latin"],
@@ -74,27 +76,37 @@ export default async function Home() {
             </div>
           </>
         ) : (
-          <div className="flex flex-col min-h-screen">
+          <div className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-black px-4 py-10 text-center">
+            <Image
+              src={DecalLogoRecord}
+              alt="Decal Punk logo"
+              sizes="(min-width: 1024px) 224px, (min-width: 640px) 176px, 128px"
+              className="h-auto w-32 sm:w-44 lg:w-56"
+              priority
+            />
 
-            {/* Tour section - don't use h-screen, let it be flexible */}
-            <div id="construction-field" className='flex-1 flex flex-col items-center justify-center text-center bg-black'>
-              <Link href="./tour">
-                <div className={`text-4xl text-white ${protestFont.className}`}>We're under construction</div>
-                <div className={`text-4xl text-white ${protestFont.className}`}>Excited to present to you the best decal and sticker site there is!</div>
-                <div className={`text-4xl text-white ${protestFont.className}`}>Take a tour while we work?</div>
+            <h1 className={`${protestFont.className} text-4xl text-white sm:text-5xl lg:text-6xl`}>
+              We&apos;re under construction
+            </h1>
+
+            <p className={`${protestFont.className} max-w-2xl text-xl text-amber-300 sm:text-2xl lg:text-3xl`}>
+              Excited to present to you the best decal and sticker site there is!
+            </p>
+
+            <div className="mt-2 flex w-full max-w-xs flex-col gap-3 sm:max-w-md sm:flex-row sm:justify-center">
+              <Link
+                href="/tour"
+                className={`${protestFont.className} flex h-12 flex-1 items-center justify-center rounded-lg bg-pink-700 px-6 text-xl text-white transition-colors hover:bg-pink-600`}
+              >
+                Take a tour
               </Link>
-            </div>
-
-            {/* Sign-in link - pinned at the bottom */}
-            <div className="bg-black flex justify-center items-center py-6">
               <Link
                 href="/sign-in"
-                className="px-6 py-3 bg-white text-black rounded-lg text-xl hover:bg-gray-300 transition"
+                className={`${protestFont.className} flex h-12 flex-1 items-center justify-center rounded-lg bg-amber-300 px-6 text-xl text-black transition-colors hover:bg-amber-200`}
               >
                 Sign In
               </Link>
             </div>
-
           </div>
         )}
       </main>
