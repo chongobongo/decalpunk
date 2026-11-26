@@ -4,6 +4,7 @@
 import DecalIconRazor from "@/app/images/icons/decal-icon-razor-guitar.png"
 import Image from "next/image"
 import { Protest_Strike } from "next/font/google"
+import Link from "next/link"
 
 const protestFont = Protest_Strike({
      subsets: ["latin"],
@@ -31,6 +32,7 @@ export const StickerHeader = ({
     id="image"
     className="absolute right-2 top-1/2 -translate-y-1/2 sm:right-8 lg:right-20"
   >
+<Link href="/bios/razor">
     <Image
       src={DecalIconRazor}
       width={200}
@@ -39,6 +41,7 @@ export const StickerHeader = ({
       className="h-auto w-28 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] sm:w-28 lg:w-[200px]"
       alt="Decal Punk Icon"
     />
+</Link>
   </div>
 </section>
   )

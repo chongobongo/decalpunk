@@ -34,6 +34,7 @@ export const LabelHeader = ({
     id="image"
     className="absolute right-2 top-1/2 -translate-y-1/2 sm:right-8 lg:right-20"
   >
+<Link href="/bios/crash">
     <Image
       src={DecalIconCrash}
       width={200}
@@ -42,6 +43,7 @@ export const LabelHeader = ({
       className="h-auto w-28 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] sm:w-28 lg:w-[200px]"
       alt="Decal Punk Icon"
     />
+</Link>
   </div>
 </section>
 
